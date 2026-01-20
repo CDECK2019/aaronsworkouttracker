@@ -13,6 +13,9 @@ import UserProfileForm from './UserProfileForm';
 import Input from './Input'
 import Login from './Login'
 import SignUP from './SignUp'
+import LandingPage from './LandingPage'
+import ExerciseLibrary from './ExerciseLibrary'
+import ProgramSelector from './ProgramSelector'
 
 
 
@@ -32,6 +35,7 @@ export {
     Input,
     Login,
     SignUP,
-
-
+    LandingPage,
+    ExerciseLibrary,
+    ProgramSelector,
 };

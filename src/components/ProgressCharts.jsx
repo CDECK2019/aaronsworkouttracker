@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import service from '../Appwrite/config';
-import authService from '../Appwrite/auth';
+import { getAuthService, getDataService } from '../services/serviceProvider';
 import moment from 'moment'; // For date formatting
 
 // Register the required components
@@ -52,24 +51,31 @@ export default function ProgressCharts() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const currentUser = await authService.getCurrentUser();
-      if (currentUser) {
-        const userInfo = await service.getAllWeights(currentUser.$id);
-        if (userInfo && userInfo.documents.length > 0) {
-          const groupedData = groupDataByMonth(userInfo.documents);
-          setChartData({
-            labels: groupedData.labels,
-            datasets: [
-              {
-                label: 'Weight',
-                data: groupedData.data,
-                backgroundColor: '#4f46e5',
-              },
-            ],
-          });
-        } else {
-          setChartData(null); // No data available
+      try {
+        const authService = getAuthService();
+        const dataService = getDataService();
+        const currentUser = await authService.getCurrentUser();
+        if (currentUser) {
+          const userInfo = await dataService.getAllWeights(currentUser.$id);
+          if (userInfo && userInfo.documents && userInfo.documents.length > 0) {
+            const groupedData = groupDataByMonth(userInfo.documents);
+            setChartData({
+              labels: groupedData.labels,
+              datasets: [
+                {
+                  label: 'Weight',
+                  data: groupedData.data,
+                  backgroundColor: '#4f46e5',
+                },
+              ],
+            });
+          } else {
+            setChartData(null); // No data available
+          }
         }
+      } catch (error) {
+        console.error('Error fetching weight data:', error);
+        setChartData(null);
       }
     };
 
@@ -77,15 +83,40 @@ export default function ProgressCharts() {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Weight Progress</h2>
+    <div className="bg-white dark:bg-dark-800 p-6 rounded-lg shadow-md transition-colors">
+      <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Weight Progress</h2>
       <div className="h-64 w-full">
         {chartData ? (
-          <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+          <Bar
+            data={chartData}
+            options={{
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  labels: {
+                    color: '#9ca3af' // gray-400
+                  }
+                },
+                title: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  ticks: { color: '#9ca3af' },
+                  grid: { color: '#374151' } // dark-700
+                },
+                x: {
+                  ticks: { color: '#9ca3af' },
+                  grid: { display: false }
+                }
+              }
+            }}
+          />
         ) : (
           <div className="flex items-center justify-center h-40">
-          <p className="text-2xl font-bold text-gray-400 text-center">No Weight data available.</p>
-        </div>
+            <p className="text-2xl font-bold text-gray-400 text-center">No Weight data available.</p>
+          </div>
         )}
       </div>
     </div>

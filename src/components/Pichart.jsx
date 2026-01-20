@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import authService from '../Appwrite/auth';
-import service from '../Appwrite/config';
-import conf from '../conf/Conf';
+import { getAuthService, getDataService } from '../services/serviceProvider';
 
 // Register the required components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -15,14 +13,19 @@ function DoughnutChart() {
   // Function to get user weekly data
   const userWeeklyData = async (usId) => {
     if (usId) {
-      const getWeeklyData = await service.getUserInformation(conf.appwriteWeeklyGoalsCollectionId, usId);
-      if (getWeeklyData) {
-        // setWeeklyData(getWeeklyData);
-        const data = calculateAvg(getWeeklyData);
-        setPiChartData(data);
-      } else {
-        console.log("Failed to fetch weekly data for PiChart");
-        setPiChartData(null); // Set to null when no data is available
+      try {
+        const dataService = getDataService();
+        const getWeeklyData = await dataService.getUserInformation('weeklygoals', usId);
+        if (getWeeklyData) {
+          const data = calculateAvg(getWeeklyData);
+          setPiChartData(data);
+        } else {
+          console.log("No weekly data for PiChart");
+          setPiChartData(null);
+        }
+      } catch (error) {
+        console.error('Error fetching weekly data:', error);
+        setPiChartData(null);
       }
     } else {
       console.log("Current user ID not found");
@@ -51,6 +54,7 @@ function DoughnutChart() {
   // Fetch user data on component mount
   React.useEffect(() => {
     const getUserId = async () => {
+      const authService = getAuthService();
       const currentUser = await authService.getCurrentUser();
       if (currentUser) {
         userWeeklyData(currentUser.$id);

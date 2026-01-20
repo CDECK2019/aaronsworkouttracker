@@ -1,15 +1,27 @@
 import conf from "../conf/Conf";
 import { Client, Account, ID } from "appwrite";
 
+// Check if Appwrite is configured
+const isAppwriteConfigured = conf.appwriteUrl &&
+  conf.appwriteUrl !== 'your_appwrite_url' &&
+  conf.appwriteProjectId &&
+  conf.appwriteProjectId !== 'your_project_id';
+
 export class AuthService {
-  client = new Client();
-  account;
+  client = null;
+  account = null;
 
   constructor() {
-    this.client
-      .setEndpoint(conf.appwriteUrl)
-      .setProject(conf.appwriteProjectId);
-    this.account = new Account(this.client);
+    // Only initialize Appwrite if properly configured
+    if (isAppwriteConfigured) {
+      this.client = new Client();
+      this.client
+        .setEndpoint(conf.appwriteUrl)
+        .setProject(conf.appwriteProjectId);
+      this.account = new Account(this.client);
+    } else {
+      console.log('Appwrite not configured - AuthService will use guest mode via serviceProvider');
+    }
   }
 
   async createAccount({ email, password, name }) {

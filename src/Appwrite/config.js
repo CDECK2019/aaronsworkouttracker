@@ -1,33 +1,45 @@
 import conf from '../conf/Conf';
-import { Client, ID, Databases, Storage,Query } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 
-export class Service{
-    client = new Client();
-    databases;
-    bucket;
-    
-    constructor(){
-        this.client
-        .setEndpoint(conf.appwriteUrl)
-        .setProject(conf.appwriteProjectId);
-        this.databases = new Databases(this.client);
-        this.bucket = new Storage(this.client);
+// Check if Appwrite is configured
+const isAppwriteConfigured = conf.appwriteUrl &&
+    conf.appwriteUrl !== 'your_appwrite_url' &&
+    conf.appwriteProjectId &&
+    conf.appwriteProjectId !== 'your_project_id';
+
+export class Service {
+    client = null;
+    databases = null;
+    bucket = null;
+
+    constructor() {
+        // Only initialize Appwrite if properly configured
+        if (isAppwriteConfigured) {
+            this.client = new Client();
+            this.client
+                .setEndpoint(conf.appwriteUrl)
+                .setProject(conf.appwriteProjectId);
+            this.databases = new Databases(this.client);
+            this.bucket = new Storage(this.client);
+        } else {
+            console.log('Appwrite not configured - Service will use localStorage via serviceProvider');
+        }
     }
 
-    async createUserProfile({name, age, weight, hight, fitnessGoals,  docId}){
+    async createUserProfile({ name, age, weight, hight, fitnessGoals, docId }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteUserInfoCollectionId,
                 docId,
-                
+
                 {
                     name,
                     age,
                     weight,
                     hight,
                     fitnessGoals,
-                    
+
                 }
             )
         } catch (error) {
@@ -37,11 +49,11 @@ export class Service{
 
 
 
-   
-    
-    
 
-    async updateUserProfile(docId, {name,age, weight, hight, fitnessGoals}){
+
+
+
+    async updateUserProfile(docId, { name, age, weight, hight, fitnessGoals }) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -61,30 +73,30 @@ export class Service{
         }
     }
 
-   
 
-        async getUserInformation(collectionId,docId){
 
-            //console.log("docId:", docId);
-        
+    async getUserInformation(collectionId, docId) {
+
+        //console.log("docId:", docId);
+
         try {
             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 collectionId,
                 docId,
-            
+
             )
         } catch (error) {
-           console.error("Appwrite service :: getUserInformation :: error", error.message, error.response);
+            console.error("Appwrite service :: getUserInformation :: error", error.message, error.response);
             return false
         }
     }
 
 
 
-     //ADD workout in the database
+    //ADD workout in the database
 
-     async addWorkout(userId,{ date, workout, duration, calories}) {
+    async addWorkout(userId, { date, workout, duration, calories }) {
         try {
             // const formattedDate = new Date(date).toISOString();
             return await this.databases.createDocument(
@@ -92,12 +104,12 @@ export class Service{
                 conf.appwriteWorkOutCollectionId,
                 ID.unique(),
                 {
-                    Date: date,      
-                    Workout: workout,        
-                    Duration: duration, 
+                    Date: date,
+                    Workout: workout,
+                    Duration: duration,
                     userId,
-                    CaloriesBurned: calories ,
-                    
+                    CaloriesBurned: calories,
+
 
                 }
             );
@@ -107,15 +119,15 @@ export class Service{
     }
 
 
-        //get all workoutHistory BY user ID
-    async getAllWorkoutHistory(userId){
+    //get all workoutHistory BY user ID
+    async getAllWorkoutHistory(userId) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteWorkOutCollectionId,
-                 [Query.equal('userId', userId)]
-              
-                
+                [Query.equal('userId', userId)]
+
+
 
             )
         } catch (error) {
@@ -125,169 +137,169 @@ export class Service{
     }
 
 
-            // Add Daily Goals
+    // Add Daily Goals
 
-            async DailyGoals(docId, {
-                caloriesBurned,
-                outOfCaloriesBurned,
-                stepsTaken,
-                targetSteps,
-                SpendWorkoutTime, 
-                outOfWorkoutTime,
-            }) {
-                try {
-                    return await this.databases.createDocument(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteDailyGoalsCollectionId,
-                        docId,
-                        {
-                            caloriesBurned,                
-                            outOfCaloriesBurned,
-                            stepsTaken,
-                            targetSteps,
-                            spendWorkoutTimeMinutes: SpendWorkoutTime,
-                            outOfWorkoutTimeMinutes: outOfWorkoutTime,
-                        }
-                    );
-                } catch (error) {
-                    console.log("Appwrite service :: DailyGoals :: error", error);
+    async DailyGoals(docId, {
+        caloriesBurned,
+        outOfCaloriesBurned,
+        stepsTaken,
+        targetSteps,
+        SpendWorkoutTime,
+        outOfWorkoutTime,
+    }) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteDailyGoalsCollectionId,
+                docId,
+                {
+                    caloriesBurned,
+                    outOfCaloriesBurned,
+                    stepsTaken,
+                    targetSteps,
+                    spendWorkoutTimeMinutes: SpendWorkoutTime,
+                    outOfWorkoutTimeMinutes: outOfWorkoutTime,
                 }
-            }
+            );
+        } catch (error) {
+            console.log("Appwrite service :: DailyGoals :: error", error);
+        }
+    }
 
 
-            //<--update Daily Goals-->
+    //<--update Daily Goals-->
 
 
-            async updateGoals(docId, {caloriesBurned,
-                outOfCaloriesBurned,
-                stepsTaken,
-                targetSteps,
-                SpendWorkoutTime, 
-                outOfWorkoutTime,}){
-                try {
-                    return await this.databases.updateDocument(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteDailyGoalsCollectionId,
-                        docId,
-                        {
-                            caloriesBurned,                
-                            outOfCaloriesBurned,
-                            stepsTaken,
-                            targetSteps,
-                            spendWorkoutTimeMinutes: SpendWorkoutTime,
-                            outOfWorkoutTimeMinutes: outOfWorkoutTime,
-        
-                        }
-                    )
-                } catch (error) {
-                    console.log("Appwrite service :: updateGoals :: error", error);
+    async updateGoals(docId, { caloriesBurned,
+        outOfCaloriesBurned,
+        stepsTaken,
+        targetSteps,
+        SpendWorkoutTime,
+        outOfWorkoutTime, }) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteDailyGoalsCollectionId,
+                docId,
+                {
+                    caloriesBurned,
+                    outOfCaloriesBurned,
+                    stepsTaken,
+                    targetSteps,
+                    spendWorkoutTimeMinutes: SpendWorkoutTime,
+                    outOfWorkoutTimeMinutes: outOfWorkoutTime,
+
                 }
-            }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updateGoals :: error", error);
+        }
+    }
 
 
-            //weekly Goals
+    //weekly Goals
 
-            async weeklyGoals(docId, {
-                caloriesBurned,
-                outOfCaloriesBurned,
-                stepsTaken,
-                targetSteps,
-                spendWorkoutTimeMinutes, 
-                outOfWorkoutTimeMinutes,
-            }) {
-                try {
-                    return await this.databases.createDocument(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteWeeklyGoalsCollectionId,
-                        docId,
-                        {
-                            caloriesBurned,                
-                            outOfCaloriesBurned:outOfCaloriesBurned,
-                            stepsTaken,
-                            targetSteps,
-                            spendWorkoutTimeMinutes,
-                            outOfWorkoutTimeMinutes,
-                        }
-                    );
-                } catch (error) {
-                    console.log("Appwrite service :: weeklyGoals :: error", error);
+    async weeklyGoals(docId, {
+        caloriesBurned,
+        outOfCaloriesBurned,
+        stepsTaken,
+        targetSteps,
+        spendWorkoutTimeMinutes,
+        outOfWorkoutTimeMinutes,
+    }) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteWeeklyGoalsCollectionId,
+                docId,
+                {
+                    caloriesBurned,
+                    outOfCaloriesBurned: outOfCaloriesBurned,
+                    stepsTaken,
+                    targetSteps,
+                    spendWorkoutTimeMinutes,
+                    outOfWorkoutTimeMinutes,
                 }
-            }
+            );
+        } catch (error) {
+            console.log("Appwrite service :: weeklyGoals :: error", error);
+        }
+    }
 
 
-              
 
 
 
 
-              //<--update Weekly Goals-->
+
+    //<--update Weekly Goals-->
 
 
-              async updateWeeklyGoals(docId, {
-                caloriesBurned,
-                stepsTaken,
-                spendWorkoutTimeMinutes, 
-               }){
-                try {
-                    return await this.databases.updateDocument(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteWeeklyGoalsCollectionId,
-                        docId,
-                        {
-                            caloriesBurned,                
-                            stepsTaken,
-                            spendWorkoutTimeMinutes,
-                            
-        
-                        }
-                    )
-                } catch (error) {
-                    console.log("Appwrite service :: updateGoals :: error", error);
+    async updateWeeklyGoals(docId, {
+        caloriesBurned,
+        stepsTaken,
+        spendWorkoutTimeMinutes,
+    }) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteWeeklyGoalsCollectionId,
+                docId,
+                {
+                    caloriesBurned,
+                    stepsTaken,
+                    spendWorkoutTimeMinutes,
+
+
                 }
-            }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updateGoals :: error", error);
+        }
+    }
 
 
 
-            // weight progress Adding weight
+    // weight progress Adding weight
 
 
-            async addWeight(weight,userId){
-                try {
-                    return await this.databases.createDocument(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteWeightProgressCollectionId,
-                        ID.unique(),
-                        
-                        {
-                            weight,
-                            userId,
-                        }
-                    )
-                } catch (error) {
-                    console.log("Appwrite service :: Adding Weight :: error", error);
+    async addWeight(weight, userId) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteWeightProgressCollectionId,
+                ID.unique(),
+
+                {
+                    weight,
+                    userId,
                 }
-            }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: Adding Weight :: error", error);
+        }
+    }
 
 
-            // get weight data
+    // get weight data
 
-            async getAllWeights(userId){
-                try {
-                    return await this.databases.listDocuments(
-                        conf.appwriteDatabaseId,
-                        conf.appwriteWeightProgressCollectionId,
-                         [Query.equal('userId', userId)]
-                      
-                        
-        
-                    )
-                } catch (error) {
-                    console.log("Appwrite service :: getWeight :: error", error);
-                    return false
-                }
-            }
-        
-            
+    async getAllWeights(userId) {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteWeightProgressCollectionId,
+                [Query.equal('userId', userId)]
+
+
+
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getWeight :: error", error);
+            return false
+        }
+    }
+
+
 
 
 
@@ -308,7 +320,7 @@ export class Service{
     //     }
     // }
 
-    
+
 
     // getFilePreview(fileId){
     //     return this.bucket.getFilePreview(

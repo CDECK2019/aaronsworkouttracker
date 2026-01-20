@@ -1,8 +1,6 @@
 import React from 'react';
 import { Plus, Dumbbell, Activity, RefreshCw, Check, Heart, Weight, RefreshCcw, BicepsFlexed } from 'lucide-react';
-import conf from '../conf/Conf';
-import service from '../Appwrite/config';
-import authService from '../Appwrite/auth';
+import serviceProvider, { getAuthService, getDataService } from '../services/serviceProvider';
 
 export default function ExerciseSuggestions() {
 
@@ -45,7 +43,8 @@ export default function ExerciseSuggestions() {
 
   const getData = async (userID) => {
     try {
-      const getWorkout = await service.getAllWorkoutHistory(userID);
+      const dataService = getDataService();
+      const getWorkout = await dataService.getAllWorkoutHistory(userID);
       if (getWorkout && getWorkout.documents.length > 0) {
         // Sort the workout history by Date (most recent first)
         const recentWorkout = getWorkout.documents.reduce((mostRecent, currentWorkout) => {
@@ -65,21 +64,21 @@ export default function ExerciseSuggestions() {
           case "middle back":
             getExercisesByMuscle("middle_back");
             break;
-            case "leg":
-              getExercisesByMuscle("adductors");
-              break;
-              case "running":
-              getExercisesByMuscle("quadriceps");
-              break;
-              case "deadlifting":
-                case "weightlifting":
-              getExercisesByMuscle("hamstrings");
-              break;
+          case "leg":
+            getExercisesByMuscle("adductors");
+            break;
+          case "running":
+            getExercisesByMuscle("quadriceps");
+            break;
+          case "deadlifting":
+          case "weightlifting":
+            getExercisesByMuscle("hamstrings");
+            break;
           default:
             getExercisesByMuscle(recentWorkout.Workout);
             break;
         }
-        
+
 
       } else {
         setHasData(false); // No workout data found
@@ -95,21 +94,19 @@ export default function ExerciseSuggestions() {
   const getExerciseIcon = (type) => {
     switch (type) {
       case 'strength':
-        return <Dumbbell className="w-6 h-6 text-indigo-600 mr-3" />;
+        return <Dumbbell className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
       case 'cardio':
-        return <RefreshCcw className="w-6 h-6 text-indigo-600 mr-3" />;
+        return <RefreshCcw className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
       case 'stretching':
-        return <RefreshCw className="w-6 h-6 text-indigo-600 mr-3" />;
+        return <RefreshCw className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
       case 'Aerobic':
-        return <Heart className="w-6 h-6 text-indigo-600 mr-3" />;
+        return <Heart className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
       case 'powerlifting':
-        return <Weight className="w-6 h-6 text-indigo-600 mr-3" />;
-        case 'strongman':
-        return <BicepsFlexed className="w-6 h-6 text-indigo-600 mr-3" />;
-
-        
+        return <Weight className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
+      case 'strongman':
+        return <BicepsFlexed className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
       default:
-        return <Activity className="w-6 h-6 text-indigo-600 mr-3" />;
+        return <Activity className="w-6 h-6 text-emerald-600 dark:text-emerald-400 mr-3" />;
     }
   };
 
@@ -130,6 +127,7 @@ export default function ExerciseSuggestions() {
 
   React.useEffect(() => {
     const getCurrentUser = async () => {
+      const authService = getAuthService();
       const currentUser = await authService.getCurrentUser();
       if (currentUser) {
         getData(currentUser.$id);
@@ -142,11 +140,11 @@ export default function ExerciseSuggestions() {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Exercise Suggestions</h2>
+    <div className="bg-white dark:bg-dark-800 p-6 rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Exercise Suggestions</h2>
       {!hasData ? (
         <div className="flex items-center justify-center h-40">
-          <p className="text-2xl font-bold text-gray-400 text-center">Not enough data available.</p>
+          <p className="text-2xl font-bold text-gray-400 dark:text-gray-500 text-center">Not enough data available.</p>
         </div>
       ) : suggestions ? (
         <div className="space-y-4">
@@ -155,13 +153,13 @@ export default function ExerciseSuggestions() {
               <div className="flex items-center">
                 {getExerciseIcon(exercise.type)}
                 <div>
-                  <p className="font-semibold text-gray-800">{exercise.name}</p>
-                  <p className="text-sm text-gray-600">{exercise.type}</p>
+                  <p className="font-semibold text-gray-800 dark:text-white">{exercise.name}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{exercise.type}</p>
                 </div>
               </div>
               <button
                 onClick={() => handleToggle(index)}
-                className="text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+                className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors duration-200"
               >
                 {checkedState[index] ? (
                   <Check className="h-6 w-6 text-green-500" />
@@ -173,7 +171,7 @@ export default function ExerciseSuggestions() {
           ))}
         </div>
       ) : (
-        <p>Loading exercises...</p>
+        <p className="text-gray-600 dark:text-gray-400">Loading exercises...</p>
       )}
     </div>
   );

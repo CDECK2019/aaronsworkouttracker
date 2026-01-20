@@ -2,28 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-a {
-    text-decoration: none !important;
-  }
-  
+/* CSS Variables for theming */
+:root {
+  --color-primary: #10b981;
+  --color-primary-dark: #059669;
+  --color-primary-light: #34d399;
+  --color-bg: #f3f4f6;
+  --color-surface: #ffffff;
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+}
 
-  html, body {
-    height: 100%; /* Ensure the body takes the full viewport height */
-    margin: 0;
+.dark {
+  --color-primary: #34d399;
+  --color-primary-dark: #10b981;
+  --color-primary-light: #6ee7b7;
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  color: var(--color-text);
 }
 
 #root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
-    flex-grow: 1; /* Ensure main content grows to take available space */
-    display: flex;
-    flex-direction: column;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
-    flex-shrink: 0; /* Prevent footer from shrinking */
+  flex-shrink: 0;
+}
+
+/* Dark mode transitions */
+.dark body {
+  /* color handled by standard inheritance or tailwind classes */
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
