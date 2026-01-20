@@ -23,6 +23,7 @@ import MindfulnessHub from './MindfulnessHub'
 import FinancialHub from './FinancialHub'
 import IntellectualHub from './IntellectualHub'
 import CareerHub from './CareerHub'
+import HolisticOverview from './HolisticOverview'
 
 
 
@@ -52,4 +53,5 @@ export {
     FinancialHub,
     IntellectualHub,
     CareerHub,
+    HolisticOverview,
 };

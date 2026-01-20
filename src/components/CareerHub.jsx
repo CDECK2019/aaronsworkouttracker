@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, TrendingUp, Award, Plus, Calendar, X } from 'lucide-react';
+import { Briefcase, TrendingUp, Award, Plus, Calendar, X, Edit2 } from 'lucide-react';
 import localStorageService from '../services/localStorageService';
 import { toast } from 'react-toastify';
 
@@ -36,6 +36,33 @@ export default function CareerHub() {
         toast.success("Milestone added");
     };
 
+    const [editingId, setEditingId] = useState(null);
+    const [editValue, setEditValue] = useState('');
+
+    const startEditing = (milestone) => {
+        setEditingId(milestone.id);
+        setEditValue(milestone.title);
+    };
+
+    const cancelEditing = () => {
+        setEditingId(null);
+        setEditValue('');
+    };
+
+    const saveEdit = async (id) => {
+        if (!editValue.trim()) return;
+
+        const updatedMilestones = data.milestones.map(m =>
+            m.id === id ? { ...m, title: editValue } : m
+        );
+
+        const updated = { ...data, milestones: updatedMilestones };
+        await localStorageService.saveCareerData(updated);
+        setData(updated);
+        setEditingId(null);
+        toast.success("Milestone updated");
+    };
+
     const removeMilestone = async (id) => {
         const updated = { ...data, milestones: data.milestones.filter(m => m.id !== id) };
         await localStorageService.saveCareerData(updated);
@@ -56,25 +83,8 @@ export default function CareerHub() {
                 </div>
             </div>
 
-            {/* Career Snapshot */}
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-8 text-white shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <TrendingUp size={120} />
-                </div>
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div className="text-center md:text-left">
-                        <p className="text-emerald-100 uppercase text-xs font-bold tracking-wider mb-1">Current Role</p>
-                        <h2 className="text-3xl font-bold">{goals.currentTitle || 'Not Set'}</h2>
-                    </div>
 
-                    <div className="hidden md:block h-px w-24 bg-emerald-400/50"></div>
 
-                    <div className="text-center md:text-right">
-                        <p className="text-emerald-100 uppercase text-xs font-bold tracking-wider mb-1">Target Role</p>
-                        <h2 className="text-3xl font-bold">{goals.targetTitle || 'Not Set'}</h2>
-                    </div>
-                </div>
-            </div>
 
             {/* Milestones */}
             <div className="space-y-6">
@@ -94,21 +104,47 @@ export default function CareerHub() {
                 <div className="space-y-4">
                     {data.milestones.map((milestone, index) => (
                         <div key={milestone.id} className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-sm border-l-4 border-emerald-500 flex justify-between items-start group">
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 flex-1">
                                 <div className="mt-1">
                                     <Award className="text-emerald-500" />
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-lg text-gray-900 dark:text-white">{milestone.title}</h3>
-                                    <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                                        <Calendar size={14} />
-                                        {new Date(milestone.date).toLocaleDateString()}
-                                    </div>
+                                <div className="flex-1">
+                                    {editingId === milestone.id ? (
+                                        <div className="flex gap-2 items-center">
+                                            <input
+                                                value={editValue}
+                                                onChange={(e) => setEditValue(e.target.value)}
+                                                className="flex-1 px-2 py-1 border rounded"
+                                                autoFocus
+                                            />
+                                            <button onClick={() => saveEdit(milestone.id)} className="text-emerald-500 hover:text-emerald-600">
+                                                <Edit2 size={16} /> Save
+                                            </button>
+                                            <button onClick={cancelEditing} className="text-gray-400 hover:text-gray-600">
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <h3 className="font-bold text-lg text-gray-900 dark:text-white">{milestone.title}</h3>
+                                            <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+                                                <Calendar size={14} />
+                                                {new Date(milestone.date).toLocaleDateString()}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
-                            <button onClick={() => removeMilestone(milestone.id)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <X size={18} />
-                            </button>
+                            {editingId !== milestone.id && (
+                                <div className="flex gap-2">
+                                    <button onClick={() => startEditing(milestone)} className="text-gray-400 hover:text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Edit2 size={18} />
+                                    </button>
+                                    <button onClick={() => removeMilestone(milestone.id)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <X size={18} />
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ))}
                     {data.milestones.length === 0 && (

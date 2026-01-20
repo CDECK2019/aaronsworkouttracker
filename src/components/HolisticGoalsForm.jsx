@@ -7,10 +7,13 @@ import localStorageService from '../services/localStorageService';
 export default function HolisticGoalsForm() {
     const { register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(false);
+    const [financialGoals, setFinancialGoals] = useState([]);
 
     useEffect(() => {
         const fetchGoals = async () => {
             const goals = await localStorageService.getHolisticGoals();
+            const finData = await localStorageService.getFinancialData();
+
             if (goals) {
                 // Fitness
                 setValue('fitness.targetWeight', goals.fitness?.targetWeight);
@@ -22,14 +25,19 @@ export default function HolisticGoalsForm() {
                 setValue('nutrition.fat', goals.nutrition?.fat);
                 // Mindfulness
                 setValue('mindfulness.minutesPerWeek', goals.mindfulness?.minutesPerWeek);
-                // Financial
-                setValue('financial.savingsGoal', goals.financial?.savingsGoal);
-                setValue('financial.monthlyBudget', goals.financial?.monthlyBudget);
                 // Intellectual
                 setValue('intellectual.booksPerYear', goals.intellectual?.booksPerYear);
                 // Career
                 setValue('career.currentTitle', goals.career?.currentTitle);
                 setValue('career.targetTitle', goals.career?.targetTitle);
+            }
+
+            if (finData && finData.goals) {
+                setFinancialGoals(finData.goals);
+                // Pre-fill form values for dynamic financial goals
+                finData.goals.forEach((goal, index) => {
+                    setValue(`financial.goals.${index}.targetAmount`, goal.targetAmount);
+                });
             }
         };
         fetchGoals();
@@ -38,8 +46,28 @@ export default function HolisticGoalsForm() {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            await localStorageService.saveHolisticGoals(data);
-            toast.success("Goals updated successfully!");
+            // 1. Save Standard Holistic Goals
+            const holisticData = {
+                fitness: data.fitness,
+                nutrition: data.nutrition,
+                mindfulness: data.mindfulness,
+                intellectual: data.intellectual,
+                career: data.career,
+                financial: {} // cleared as we use specific storage now
+            };
+            await localStorageService.saveHolisticGoals(holisticData);
+
+            // 2. Save Dynamic Financial Goals
+            // Merge form data back into the original goal objects
+            const updatedFinancialGoals = financialGoals.map((goal, index) => ({
+                ...goal,
+                targetAmount: data.financial?.goals?.[index]?.targetAmount || goal.targetAmount
+            }));
+
+            await localStorageService.saveFinancialData({ goals: updatedFinancialGoals });
+            setFinancialGoals(updatedFinancialGoals);
+
+            toast.success("Goals synced successfully!");
         } catch (error) {
             console.error(error);
             toast.error("Failed to update goals.");
@@ -61,7 +89,7 @@ export default function HolisticGoalsForm() {
                     </div>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Weight (kg)</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Weight (lbs)</label>
                             <input
                                 type="number"
                                 {...register("fitness.targetWeight", { valueAsNumber: true })}
@@ -140,29 +168,28 @@ export default function HolisticGoalsForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                {/* Financial Section */}
+                {/* Financial Section - Dynamic Sync */}
                 <div className="bg-green-50 dark:bg-green-900/10 p-6 rounded-xl border border-green-100 dark:border-green-800">
                     <div className="flex items-center gap-2 mb-4 text-green-700 dark:text-green-400">
                         <DollarSign className="w-5 h-5" />
-                        <h3 className="font-bold text-lg">Financial</h3>
+                        <h3 className="font-bold text-lg">Financial Targets</h3>
                     </div>
                     <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Monthly Savings Goal</label>
-                            <input
-                                type="number"
-                                {...register("financial.savingsGoal", { valueAsNumber: true })}
-                                className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Monthly Budget Limit</label>
-                            <input
-                                type="number"
-                                {...register("financial.monthlyBudget", { valueAsNumber: true })}
-                                className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
-                            />
-                        </div>
+                        {financialGoals.length === 0 && (
+                            <p className="text-gray-500 text-sm">No active financial goals found. Add them in the Financial Hub.</p>
+                        )}
+                        {financialGoals.map((goal, index) => (
+                            <div key={goal.id}>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {goal.title} ({goal.unit || '$'})
+                                </label>
+                                <input
+                                    type="number"
+                                    {...register(`financial.goals.${index}.targetAmount`, { valueAsNumber: true })}
+                                    className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
 

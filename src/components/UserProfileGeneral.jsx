@@ -119,7 +119,7 @@ function UserProfileGeneral() {
                             {errors.age && <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>}
                         </div>
                         <div className="flex-1">
-                            <label htmlFor="weight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weight KG:</label>
+                            <label htmlFor="weight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weight LBS:</label>
                             <input
                                 type="number"
                                 id="weight"

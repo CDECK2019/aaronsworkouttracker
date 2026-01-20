@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserProfileCard, GoalsProgress, WorkoutHistory, ProgressCharts, ExerciseSuggestions } from './index';
+import { HolisticOverview } from './index';
 import { getDataService, getAuthService, getServiceMode } from '../services/serviceProvider';
-import Pichart from './Pichart';
+
 import { Link } from 'react-router-dom';
 import { Dumbbell, PlayCircle, Utensils } from 'lucide-react';
 
@@ -128,25 +128,13 @@ export default function Dashboard() {
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <UserProfileCard
-                    name={profile.name}
-                    age={profile.age}
-                    weight={profile.weight}
-                    height={profile.hight}
-                    fitnessGoals={profile.fitnessGoals}
-                  />
-                  <GoalsProgress tittle="Daily Goals" />
-                  <GoalsProgress tittle="Weekly Goals" />
-                </div>
 
-                <WorkoutHistory />
+                <HolisticOverview />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <ProgressCharts />
-                  <Pichart />
-                  <ExerciseSuggestions />
-                </div>
+
+
+                {/* <ExerciseSuggestions /> Removed as per redesign */}
+                {/* </div> */}
               </>
             )}
           </div>
