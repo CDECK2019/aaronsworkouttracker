@@ -14,6 +14,14 @@ const STORAGE_KEYS = {
   CUSTOM_PROGRAMS: 'fitness_custom_programs',
   CUSTOM_MEAL_PLANS: 'fitness_custom_meal_plans',
   DAILY_NUTRITION: 'fitness_daily_nutrition',
+  // Phase 8: Holistic keys
+  USER_SUPPLEMENTS: 'fitness_user_supplements',
+  MINDFULNESS_LOGS: 'fitness_mindfulness_logs',
+  HOLISTIC_GOALS: 'fitness_holistic_goals',
+  // Phase 9: Wealthier & Wiser
+  FINANCIAL_DATA: 'fitness_financial_data',
+  INTELLECTUAL_DATA: 'fitness_intellectual_data',
+  CAREER_DATA: 'fitness_career_data',
 };
 
 // Helper to generate unique IDs
@@ -359,6 +367,139 @@ class LocalStorageService {
   async getNutritionLog(date) {
     const logs = getStorage(STORAGE_KEYS.DAILY_NUTRITION) || [];
     return logs.find(l => l.date === date) || null;
+  }
+  // ==================== SUPPLEMENTS ====================
+
+  async saveSupplements(supplements) {
+    setStorage(STORAGE_KEYS.USER_SUPPLEMENTS, supplements);
+    return supplements;
+  }
+
+  async getSupplements() {
+    return getStorage(STORAGE_KEYS.USER_SUPPLEMENTS) || [];
+  }
+
+  // ==================== MINDFULNESS ====================
+
+  async logMindfulnessSession(session) {
+    const logs = getStorage(STORAGE_KEYS.MINDFULNESS_LOGS) || [];
+    const newLog = {
+      $id: generateId(),
+      ...session,
+      $createdAt: new Date().toISOString(),
+    };
+    logs.push(newLog);
+    setStorage(STORAGE_KEYS.MINDFULNESS_LOGS, logs);
+    return newLog;
+  }
+
+  async getMindfulnessLogs() {
+    return getStorage(STORAGE_KEYS.MINDFULNESS_LOGS) || [];
+  }
+
+  // ==================== HOLISTIC GOALS ====================
+
+  async saveHolisticGoals(goals) {
+    // goals structure: { nutrition: {}, fitness: {}, mindfulness: {} }
+    const existing = getStorage(STORAGE_KEYS.HOLISTIC_GOALS) || {};
+    const updated = { ...existing, ...goals, $updatedAt: new Date().toISOString() };
+    setStorage(STORAGE_KEYS.HOLISTIC_GOALS, updated);
+    return updated;
+  }
+
+  async getHolisticGoals() {
+    return getStorage(STORAGE_KEYS.HOLISTIC_GOALS) || {
+      nutrition: { calories: 2000, protein: 150, carbs: 200, fat: 65 },
+      fitness: { targetWeight: 0, workoutsPerWeek: 3 },
+      mindfulness: { minutesPerWeek: 60 },
+      financial: { savingsGoal: 0, monthlyBudget: 0 },
+      intellectual: { booksPerYear: 12 },
+      career: { currentTitle: '', targetTitle: '' }
+    };
+  }
+
+  // ==================== FINANCIAL ====================
+
+  async saveFinancialData(data) {
+    // data: { goals: [{ id, title, current, target, type }] }
+    const existing = getStorage(STORAGE_KEYS.FINANCIAL_DATA) || { goals: [] };
+    const updated = { ...existing, ...data, $updatedAt: new Date().toISOString() };
+    setStorage(STORAGE_KEYS.FINANCIAL_DATA, updated);
+    return updated;
+  }
+
+  async getFinancialData() {
+    let data = getStorage(STORAGE_KEYS.FINANCIAL_DATA);
+
+    // Seed default goals if not present
+    if (!data || !data.goals || data.goals.length === 0) {
+      const defaultGoals = [
+        {
+          id: 'default_1',
+          title: 'Build 6-Month Emergency Fund',
+          currentAmount: 0,
+          targetAmount: 15000,
+          type: 'savings',
+          isRecommended: true
+        },
+        {
+          id: 'default_2',
+          title: 'Pay Off Credit Card Debt',
+          currentAmount: 0,
+          targetAmount: 5000,
+          type: 'debt',
+          isRecommended: true
+        },
+        {
+          id: 'default_3',
+          title: 'Invest 10% of Net Pay',
+          currentAmount: 0,
+          targetAmount: 100, // This is a percentage tracker representation (0-100%)
+          type: 'investing',
+          unit: '%',
+          isRecommended: true
+        }
+      ];
+
+      data = { goals: defaultGoals };
+      setStorage(STORAGE_KEYS.FINANCIAL_DATA, data);
+    }
+
+    return data;
+  }
+
+  // ==================== INTELLECTUAL ====================
+
+  async saveIntellectualData(data) {
+    // data: { books: [], skills: [] }
+    const existing = getStorage(STORAGE_KEYS.INTELLECTUAL_DATA) || { books: [], skills: [] };
+    const updated = { ...existing, ...data, $updatedAt: new Date().toISOString() };
+    setStorage(STORAGE_KEYS.INTELLECTUAL_DATA, updated);
+    return updated;
+  }
+
+  async getIntellectualData() {
+    return getStorage(STORAGE_KEYS.INTELLECTUAL_DATA) || {
+      books: [],
+      skills: []
+    };
+  }
+
+  // ==================== CAREER ====================
+
+  async saveCareerData(data) {
+    // data: { milestones: [], networking: [] }
+    const existing = getStorage(STORAGE_KEYS.CAREER_DATA) || { milestones: [], networking: [] };
+    const updated = { ...existing, ...data, $updatedAt: new Date().toISOString() };
+    setStorage(STORAGE_KEYS.CAREER_DATA, updated);
+    return updated;
+  }
+
+  async getCareerData() {
+    return getStorage(STORAGE_KEYS.CAREER_DATA) || {
+      milestones: [],
+      networking: []
+    };
   }
 }
 

@@ -24,7 +24,7 @@ export const exercises = [
             'Push the bar back to starting position as you breathe out.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Barbell_Bench_Press_-_Medium_Grip/0.jpg`, `${IMAGE_BASE_URL}/Barbell_Bench_Press_-_Medium_Grip/1.jpg`],
+        images: [],
     },
     {
         id: 'push_up',
@@ -42,7 +42,7 @@ export const exercises = [
             'Push yourself back up to the starting position.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Push-Up_-_Close_Triceps_Position/0.jpg`, `${IMAGE_BASE_URL}/Push-Up_-_Close_Triceps_Position/1.jpg`],
+        images: [],
     },
     {
         id: 'dumbbell_flye',
@@ -60,7 +60,7 @@ export const exercises = [
             'Bring the dumbbells back up using the same arc motion.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Dumbbell_Flyes/0.jpg`, `${IMAGE_BASE_URL}/Dumbbell_Flyes/1.jpg`],
+        images: [],
     },
 
     // ==================== BACK ====================
@@ -80,7 +80,7 @@ export const exercises = [
             'Lower yourself back down with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Pullups/0.jpg`, `${IMAGE_BASE_URL}/Pullups/1.jpg`],
+        images: [],
     },
     {
         id: 'bent_over_row',
@@ -98,7 +98,7 @@ export const exercises = [
             'Lower the barbell back down with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Bent_Over_Barbell_Row/0.jpg`, `${IMAGE_BASE_URL}/Bent_Over_Barbell_Row/1.jpg`],
+        images: [],
     },
     {
         id: 'deadlift',
@@ -116,7 +116,7 @@ export const exercises = [
             'Lower the bar by pushing your hips back first.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Barbell_Deadlift/0.jpg`, `${IMAGE_BASE_URL}/Barbell_Deadlift/1.jpg`],
+        images: [],
     },
 
     // ==================== SHOULDERS ====================
@@ -136,7 +136,7 @@ export const exercises = [
             'Lower back to shoulder height with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Standing_Military_Press/0.jpg`, `${IMAGE_BASE_URL}/Standing_Military_Press/1.jpg`],
+        images: [],
     },
     {
         id: 'lateral_raise',
@@ -154,7 +154,7 @@ export const exercises = [
             'Lower back down slowly.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Side_Lateral_Raise/0.jpg`, `${IMAGE_BASE_URL}/Side_Lateral_Raise/1.jpg`],
+        images: [],
     },
 
     // ==================== ARMS ====================
@@ -174,7 +174,7 @@ export const exercises = [
             'Lower the bar back down slowly.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Barbell_Curl/0.jpg`, `${IMAGE_BASE_URL}/Barbell_Curl/1.jpg`],
+        images: [],
     },
     {
         id: 'tricep_dip',
@@ -192,7 +192,7 @@ export const exercises = [
             'Push back up to starting position.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Dips_-_Triceps_Version/0.jpg`, `${IMAGE_BASE_URL}/Dips_-_Triceps_Version/1.jpg`],
+        images: [],
     },
     {
         id: 'hammer_curl',
@@ -210,7 +210,7 @@ export const exercises = [
             'Lower back down with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Hammer_Curls/0.jpg`, `${IMAGE_BASE_URL}/Hammer_Curls/1.jpg`],
+        images: [],
     },
 
     // ==================== LEGS ====================
@@ -230,7 +230,7 @@ export const exercises = [
             'Drive through your heels to stand back up.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Barbell_Squat/0.jpg`, `${IMAGE_BASE_URL}/Barbell_Squat/1.jpg`],
+        images: [],
     },
     {
         id: 'lunge',
@@ -248,7 +248,7 @@ export const exercises = [
             'Push back to starting position and repeat with the other leg.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Dumbbell_Lunges/0.jpg`, `${IMAGE_BASE_URL}/Dumbbell_Lunges/1.jpg`],
+        images: [],
     },
     {
         id: 'leg_press',
@@ -266,7 +266,7 @@ export const exercises = [
             'Push through your heels to extend your legs.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Leg_Press/0.jpg`, `${IMAGE_BASE_URL}/Leg_Press/1.jpg`],
+        images: [],
     },
     {
         id: 'romanian_deadlift',
@@ -284,7 +284,7 @@ export const exercises = [
             'Lower until you feel a stretch in hamstrings, then return to start.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Romanian_Deadlift/0.jpg`, `${IMAGE_BASE_URL}/Romanian_Deadlift/1.jpg`],
+        images: [],
     },
     {
         id: 'calf_raise',
@@ -302,7 +302,7 @@ export const exercises = [
             'Hold briefly at the top, then lower with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Standing_Calf_Raises/0.jpg`, `${IMAGE_BASE_URL}/Standing_Calf_Raises/1.jpg`],
+        images: [],
     },
 
     // ==================== CORE ====================
@@ -322,7 +322,7 @@ export const exercises = [
             'Keep breathing steadily throughout.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Plank/0.jpg`, `${IMAGE_BASE_URL}/Plank/1.jpg`],
+        images: [],
     },
     {
         id: 'crunch',
@@ -340,7 +340,7 @@ export const exercises = [
             'Lower back down with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Crunches/0.jpg`, `${IMAGE_BASE_URL}/Crunches/1.jpg`],
+        images: [],
     },
     {
         id: 'russian_twist',
@@ -358,7 +358,7 @@ export const exercises = [
             'Keep your core engaged throughout the movement.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Russian_Twist/0.jpg`, `${IMAGE_BASE_URL}/Russian_Twist/1.jpg`],
+        images: [],
     },
     {
         id: 'leg_raise',
@@ -376,7 +376,7 @@ export const exercises = [
             'Lower back down with control.',
         ],
         category: 'strength',
-        images: [`${IMAGE_BASE_URL}/Hanging_Leg_Raise/0.jpg`, `${IMAGE_BASE_URL}/Hanging_Leg_Raise/1.jpg`],
+        images: [],
     },
 
     // ==================== CARDIO ====================
@@ -396,7 +396,7 @@ export const exercises = [
             'Repeat at a steady pace.',
         ],
         category: 'cardio',
-        images: [`${IMAGE_BASE_URL}/Jumping_Jacks/0.jpg`, `${IMAGE_BASE_URL}/Jumping_Jacks/1.jpg`],
+        images: [],
     },
     {
         id: 'burpee',
@@ -414,7 +414,7 @@ export const exercises = [
             'Jump up with arms overhead.',
         ],
         category: 'cardio',
-        images: [`${IMAGE_BASE_URL}/Burpee/0.jpg`, `${IMAGE_BASE_URL}/Burpee/1.jpg`],
+        images: [],
     },
     {
         id: 'mountain_climber',
@@ -432,7 +432,7 @@ export const exercises = [
             'Continue alternating at a fast pace.',
         ],
         category: 'cardio',
-        images: [`${IMAGE_BASE_URL}/Mountain_Climbers/0.jpg`, `${IMAGE_BASE_URL}/Mountain_Climbers/1.jpg`],
+        images: [],
     },
     {
         id: 'high_knees',
@@ -450,7 +450,7 @@ export const exercises = [
             'Maintain a quick pace.',
         ],
         category: 'cardio',
-        images: [`${IMAGE_BASE_URL}/High_Knee_Jog/0.jpg`, `${IMAGE_BASE_URL}/High_Knee_Jog/1.jpg`],
+        images: [],
     },
 
     // ==================== STRETCHING ====================

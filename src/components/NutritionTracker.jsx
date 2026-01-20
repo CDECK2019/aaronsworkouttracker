@@ -214,15 +214,8 @@ export default function NutritionTracker() {
                     <div className="flex items-center gap-4">
                         <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
                             <Utensils className="w-6 h-6 text-emerald-600" />
-                            Nutrition
+                            Nutrition Goals
                         </h1>
-                        <Link
-                            to="/nutrition/plans"
-                            className="text-sm px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-lg hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-colors flex items-center gap-1 font-medium"
-                        >
-                            <BookOpen className="w-4 h-4" />
-                            Meal Plans
-                        </Link>
                     </div>
                     <div className="flex items-center gap-4 bg-gray-100 dark:bg-dark-700 rounded-xl p-1">
                         <button onClick={() => changeDate(-1)} className="p-2 hover:bg-white dark:hover:bg-dark-600 rounded-lg transition-colors">

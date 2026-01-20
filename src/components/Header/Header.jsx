@@ -27,6 +27,8 @@ function Header({ isSidebarOpen, toggleSidebar }) {
         </div>
 
         <nav className="flex items-center space-x-4">
+
+
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}

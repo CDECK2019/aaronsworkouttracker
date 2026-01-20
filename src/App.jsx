@@ -18,6 +18,10 @@ import LandingPage from "./components/LandingPage.jsx";
 import CustomProgramBuilder from "./components/CustomProgramBuilder.jsx";
 import NutritionTracker from "./components/NutritionTracker.jsx";
 import MealPlanLibrary from "./components/MealPlanLibrary.jsx";
+import MindfulnessHub from "./components/MindfulnessHub.jsx";
+import FinancialHub from "./components/FinancialHub.jsx";
+import IntellectualHub from "./components/IntellectualHub.jsx";
+import CareerHub from "./components/CareerHub.jsx";
 import CustomMealBuilder from "./components/CustomMealBuilder.jsx";
 import MealPlanDetails from "./components/MealPlanDetails.jsx";
 
@@ -44,6 +48,10 @@ const router = createBrowserRouter(
         <Route path="nutrition/plans" element={<MealPlanLibrary />} />
         <Route path="nutrition/plans/:id" element={<MealPlanDetails />} />
         <Route path="nutrition/create" element={<CustomMealBuilder />} />
+        <Route path="mindfulness" element={<MindfulnessHub />} />
+        <Route path="financial" element={<FinancialHub />} />
+        <Route path="intellectual" element={<IntellectualHub />} />
+        <Route path="career" element={<CareerHub />} />
       </Route>
     </Route>
   )
