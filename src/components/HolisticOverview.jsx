@@ -9,7 +9,7 @@ export default function HolisticOverview() {
         fitness: { currentWeight: 0, targetWeight: 0, workoutsPerWeek: 0 },
         mindfulness: { current: 0, target: 0 },
         financial: { activeGoal: null, progress: 0 },
-        intellectual: { booksRead: 0, targetBooks: 0 },
+        intellectual: { booksRead: 0, targetBooks: 0, label: 'Intellectual' },
         career: { current: '', target: '', nextMilestone: null }
     });
     const [loading, setLoading] = useState(true);
@@ -67,7 +67,8 @@ export default function HolisticOverview() {
                 },
                 intellectual: {
                     booksRead: booksRead,
-                    targetBooks: goals.intellectual?.booksPerYear || 12
+                    targetBooks: goals.intellectual?.booksPerYear || 12,
+                    label: intData.category1Label || 'Intellectual'
                 },
                 career: {
                     current: goals.career?.currentTitle || 'Not Set',
@@ -338,7 +339,7 @@ export default function HolisticOverview() {
                         <div className="p-2.5 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
                             <BookOpen size={20} />
                         </div>
-                        <span className="font-bold text-gray-700 dark:text-gray-200">Intellectual</span>
+                        <span className="font-bold text-gray-700 dark:text-gray-200">{stats.intellectual.label}</span>
                     </div>
 
                     {editing === 'intellectual' ? (
@@ -358,7 +359,7 @@ export default function HolisticOverview() {
                             {renderEditButton('intellectual')}
                             <div className="flex justify-between items-end mb-1">
                                 <span className="text-2xl font-bold text-gray-900 dark:text-white">{stats.intellectual.booksRead}</span>
-                                <span className="text-xs text-gray-500 mb-1">/ {stats.intellectual.targetBooks} books</span>
+                                <span className="text-xs text-gray-500 mb-1">/ {stats.intellectual.targetBooks}</span>
                             </div>
                             <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-1.5">
                                 <div

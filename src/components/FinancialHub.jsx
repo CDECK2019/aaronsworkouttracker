@@ -7,17 +7,11 @@ export default function FinancialHub() {
     const [goals, setGoals] = useState([]);
     const [newGoal, setNewGoal] = useState({ title: '', targetAmount: '', type: 'savings', unit: '$' });
     const [editingId, setEditingId] = useState(null);
-    const [editValue, setEditValue] = useState('');
+    const [editValues, setEditValues] = useState({ title: '', current: '', target: '' });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const financialData = await localStorageService.getFinancialData();
-            if (financialData && financialData.goals) {
-                setGoals(financialData.goals);
-            }
-        };
-        fetchData();
-    }, []);
+    // ... useEffect ...
+
+    // ... handleAddGoal ...
 
     const handleAddGoal = async (e) => {
         e.preventDefault();
@@ -40,23 +34,31 @@ export default function FinancialHub() {
         toast.success("Goal added");
     };
 
-    const updateProgress = async (id, newValue) => {
+    const saveEdit = async (id) => {
         const updatedGoals = goals.map(g => {
             if (g.id === id) {
-                return { ...g, currentAmount: parseFloat(newValue) };
+                return {
+                    ...g,
+                    title: editValues.title,
+                    currentAmount: parseFloat(editValues.current),
+                    targetAmount: parseFloat(editValues.target)
+                };
             }
             return g;
         });
         await localStorageService.saveFinancialData({ goals: updatedGoals });
         setGoals(updatedGoals);
         setEditingId(null);
-        setEditValue('');
-        toast.success("Progress updated");
+        toast.success("Goal updated");
     };
 
     const startEdit = (goal) => {
         setEditingId(goal.id);
-        setEditValue(goal.currentAmount);
+        setEditValues({
+            title: goal.title,
+            current: goal.currentAmount,
+            target: goal.targetAmount
+        });
     };
 
     const deleteGoal = async (id) => {
@@ -114,23 +116,46 @@ export default function FinancialHub() {
                                         </div>
                                     </div>
 
-                                    {!goal.isRecommended && (
-                                        <button onClick={() => deleteGoal(goal.id)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <X size={18} />
-                                        </button>
-                                    )}
+                                    <button onClick={() => deleteGoal(goal.id)} className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <X size={18} />
+                                    </button>
                                 </div>
 
                                 {editingId === goal.id ? (
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <input
-                                            type="number"
-                                            value={editValue}
-                                            onChange={(e) => setEditValue(e.target.value)}
-                                            className="w-32 px-3 py-1 bg-gray-50 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-gray-900 dark:text-white"
-                                        />
-                                        <button onClick={() => updateProgress(goal.id, editValue)} className="text-green-600 font-bold text-sm">Save</button>
-                                        <button onClick={() => setEditingId(null)} className="text-gray-500 text-sm">Cancel</button>
+                                    <div className="space-y-3 mb-4 bg-gray-50 dark:bg-dark-700 p-3 rounded-lg border border-gray-200 dark:border-dark-600">
+                                        <div>
+                                            <label className="text-xs text-gray-500 block mb-1">Title</label>
+                                            <input
+                                                type="text"
+                                                value={editValues.title}
+                                                onChange={(e) => setEditValues({ ...editValues, title: e.target.value })}
+                                                className="w-full px-2 py-1 text-sm border rounded dark:bg-dark-800 dark:border-dark-500"
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <label className="text-xs text-gray-500 block mb-1">Current</label>
+                                                <input
+                                                    type="number"
+                                                    value={editValues.current}
+                                                    onChange={(e) => setEditValues({ ...editValues, current: e.target.value })}
+                                                    className="w-full px-2 py-1 text-sm border rounded dark:bg-dark-800 dark:border-dark-500"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-xs text-gray-500 block mb-1">Target</label>
+                                                <input
+                                                    type="number"
+                                                    value={editValues.target}
+                                                    onChange={(e) => setEditValues({ ...editValues, target: e.target.value })}
+                                                    className="w-full px-2 py-1 text-sm border rounded dark:bg-dark-800 dark:border-dark-500"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-end gap-2 mt-2">
+                                            <button onClick={() => setEditingId(null)} className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1">Cancel</button>
+                                            <button onClick={() => saveEdit(goal.id)} className="text-xs bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600">Save</button>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="flex items-end gap-2 mb-2">

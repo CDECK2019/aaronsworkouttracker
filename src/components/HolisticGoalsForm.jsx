@@ -8,11 +8,17 @@ export default function HolisticGoalsForm() {
     const { register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(false);
     const [financialGoals, setFinancialGoals] = useState([]);
+    const [intellectualLabels, setIntellectualLabels] = useState({ category1: 'Intellectual' });
 
     useEffect(() => {
         const fetchGoals = async () => {
             const goals = await localStorageService.getHolisticGoals();
             const finData = await localStorageService.getFinancialData();
+            const intData = await localStorageService.getIntellectualData();
+
+            if (intData) {
+                setIntellectualLabels({ category1: intData.category1Label || 'Intellectual' });
+            }
 
             if (goals) {
                 // Fitness
@@ -201,7 +207,7 @@ export default function HolisticGoalsForm() {
                     </div>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Books / Year Goal</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{intellectualLabels.category1} Goal / Year</label>
                             <input
                                 type="number"
                                 {...register("intellectual.booksPerYear", { valueAsNumber: true })}
