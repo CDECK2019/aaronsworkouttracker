@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dumbbell, Home, BarChart2, BarChart3, Clock, User, BookOpen, PlayCircle, LogOut, Utensils, Brain, DollarSign, Briefcase, MessageSquare } from 'lucide-react';
+import { Sparkles, Home, BarChart2, BarChart3, Clock, User, BookOpen, PlayCircle, LogOut, Utensils, Brain, DollarSign, Briefcase, MessageSquare, Dumbbell } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthService, setGuestMode } from '../../services/serviceProvider';
 
@@ -23,6 +23,10 @@ function SideBar({ isSidebarOpen }) {
 
   return (
     <div className={`md:w-64 h-auto md:mr-0 pt-8 bg-gray-100 dark:bg-dark-900 transition-colors ${isSidebarOpen ? 'block' : 'hidden'} md:block border-r border-gray-200 dark:border-gray-800`}>
+      <div className="px-6 mb-8 flex items-center gap-3">
+        <Sparkles className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+        <span className="font-black text-lg text-gray-800 dark:text-white tracking-tight leading-none">You Got This!</span>
+      </div>
       <nav className="flex flex-col space-y-2 pl-4 no-underline">
         <NavLink to="/dashboard" className={navLinkClass}>
           <Home className="mr-3 h-5 w-5" />
@@ -34,7 +38,7 @@ function SideBar({ isSidebarOpen }) {
           Visuals
         </NavLink>
 
-        <NavLink to="/userprofile" className={navLinkClass}>
+        <NavLink to="/profile" className={navLinkClass}>
           <User className="mr-3 h-5 w-5" />
           Profile
         </NavLink>

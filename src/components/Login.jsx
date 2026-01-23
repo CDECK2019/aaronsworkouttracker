@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Input from "./Input";
 import { Link, useNavigate } from "react-router-dom";
-import { Dumbbell, UserCircle } from "lucide-react";
+import { Dumbbell, UserCircle, Sparkles } from "lucide-react";
 import { setGuestMode, getAuthService, getServiceMode } from "../services/serviceProvider";
 
 export default function SignInForm() {
@@ -78,13 +78,12 @@ export default function SignInForm() {
 
       <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Logo */}
-        <Link to="/" className="flex justify-center items-center group">
-          <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl mr-3 group-hover:shadow-lg group-hover:shadow-emerald-500/30 transition-all">
-            <Dumbbell className="h-10 w-10 text-white" />
+        <Link to="/" className="flex flex-col items-center group">
+          <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl mb-4 group-hover:shadow-lg group-hover:shadow-emerald-500/20 transition-all">
+            <Sparkles className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-            Fitness World
-          </h1>
+          <h1 className="text-3xl font-black text-white tracking-tight">You Got This!</h1>
+          <p className="text-emerald-400 font-bold text-sm tracking-widest uppercase">An Optimal Life</p>
         </Link>
 
         {/* Card */}

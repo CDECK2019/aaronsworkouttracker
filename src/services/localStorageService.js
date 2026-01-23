@@ -23,6 +23,7 @@ const STORAGE_KEYS = {
   INTELLECTUAL_DATA: 'fitness_intellectual_data',
   CAREER_DATA: 'fitness_career_data',
   HEALTH_CONSIDERATIONS: 'fitness_health_considerations',
+  ONBOARDING_COMPLETE: 'fitness_onboarding_complete',
 };
 
 // Helper to generate unique IDs

@@ -103,6 +103,50 @@ export const workoutPrograms = [
         weeklySchedule: ['Push', 'Pull', 'Legs', 'Push', 'Pull', 'Legs', 'Rest'],
     },
     {
+        id: 'absolute_beginner_foundation',
+        name: 'Absolute Beginner Foundation',
+        description: 'A gentle 1-week introduction to mobility and basic movements. No equipment needed.',
+        level: 'beginner',
+        duration: '1 week',
+        frequency: '3 days/week',
+        estimatedTime: '15-20 min',
+        category: 'stretching',
+        color: '#10B981', // Emerald
+        icon: '🌱',
+        schedule: [
+            {
+                day: 'Day 1',
+                name: 'Bodyweight Basics',
+                exercises: [
+                    { exerciseId: 'squat', sets: 2, reps: '10', rest: '60s', note: 'Bodyweight only, sit back into a chair if needed' },
+                    { exerciseId: 'push_up', sets: 2, reps: '5-8', rest: '60s', note: 'Perform on knees for better control' },
+                    { exerciseId: 'plank', sets: 2, reps: '20s', rest: '60s' },
+                    { exerciseId: 'jumping_jack', sets: 2, reps: '15', rest: '60s' },
+                ],
+            },
+            {
+                day: 'Day 2',
+                name: 'Mobility & Flow',
+                exercises: [
+                    { exerciseId: 'quad_stretch', sets: 2, reps: '30s each', rest: '0s' },
+                    { exerciseId: 'hamstring_stretch', sets: 2, reps: '30s each', rest: '0s' },
+                    { exerciseId: 'chest_stretch', sets: 2, reps: '30s', rest: '0s' },
+                ],
+            },
+            {
+                day: 'Day 3',
+                name: 'Confidence Builder',
+                exercises: [
+                    { exerciseId: 'lunge', sets: 2, reps: '8 each', rest: '60s', note: 'Hold a wall for balance' },
+                    { exerciseId: 'crunch', sets: 2, reps: '10', rest: '60s' },
+                    { exerciseId: 'high_knees', sets: 2, reps: '20s', rest: '60s' },
+                    { exerciseId: 'plank', sets: 2, reps: '30s', rest: '60s' },
+                ],
+            },
+        ],
+        weeklySchedule: ['Day 1', 'Rest', 'Day 2', 'Rest', 'Day 3', 'Rest', 'Rest'],
+    },
+    {
         id: 'hiit_cardio',
         name: 'HIIT Cardio Blast',
         description: 'High-intensity interval training for maximum calorie burn in minimal time.',

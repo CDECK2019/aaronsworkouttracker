@@ -10,7 +10,7 @@ export default function LandingPage() {
 
     const handleGuestStart = () => {
         setGuestMode(true);
-        navigate('/dashboard');
+        navigate('/onboarding'); // Updated to onboarding
     };
 
     const features = [
@@ -52,7 +52,7 @@ export default function LandingPage() {
                     <div className="max-w-7xl mx-auto flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                             <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                                <Sparkles className="w-8 h-8 text-white" />
+                                <Sun className="w-8 h-8 text-white animate-throb" />
                             </div>
                             <div>
                                 <span className="text-2xl font-bold text-white">You Got This!</span>

@@ -11,6 +11,12 @@ const isAppwriteConfigured = () => {
     return projectId && projectId !== 'your_project_id' && projectId.length > 0;
 };
 
+// Check if Supabase is configured
+const isSupabaseConfigured = () => {
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    return url && url !== 'your_supabase_url' && url.length > 0;
+};
+
 // Check if user is in guest mode
 const isGuestMode = () => {
     return localStorage.getItem('fitness_guest_mode') === 'true';
@@ -24,6 +30,7 @@ export const setGuestMode = (enabled) => {
 // Get the current mode
 export const getServiceMode = () => {
     if (isGuestMode()) return 'local';
+    if (isSupabaseConfigured()) return 'supabase';
     if (isAppwriteConfigured()) return 'appwrite';
     return 'local';
 };
@@ -36,7 +43,20 @@ let authService = null;
 export const initializeServices = async () => {
     const mode = getServiceMode();
 
-    if (mode === 'appwrite') {
+    if (mode === 'supabase') {
+        try {
+            const supabaseModule = await import('./supabaseService');
+            const authModule = await import('./supabaseAuthService');
+
+            dataService = supabaseModule.default;
+            authService = authModule.default;
+
+            console.log('Using Supabase backend');
+        } catch (error) {
+            console.warn('Failed to load Supabase, falling back to localStorage:', error);
+            dataService = localStorageService;
+        }
+    } else if (mode === 'appwrite') {
         try {
             // Dynamically import Appwrite services only when configured
             const configModule = await import('../Appwrite/config');

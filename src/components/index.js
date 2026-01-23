@@ -24,6 +24,7 @@ import FinancialHub from './FinancialHub'
 import IntellectualHub from './IntellectualHub'
 import CareerHub from './CareerHub'
 import HolisticOverview from './HolisticOverview'
+import Onboarding from './Onboarding'
 
 
 
@@ -54,4 +55,5 @@ export {
     IntellectualHub,
     CareerHub,
     HolisticOverview,
+    Onboarding,
 };

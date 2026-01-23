@@ -1,4 +1,4 @@
-const conf= {
+const conf = {
     appwriteUrl: import.meta.env.VITE_APPWRITE_URL,
     appwriteProjectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
     appwriteDatabaseId: import.meta.env.VITE_APPWRITE_DATABASE_ID,
@@ -27,8 +27,8 @@ const conf= {
 
 
     appwriteBucketId: import.meta.env.VITE_APPWRITE_BUCKET_ID,
-
-
+    supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
+    supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
 }
 
 export default conf

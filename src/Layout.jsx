@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Header, Footer, SideBar } from './components/index';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getAuthService, getServiceMode } from './services/serviceProvider';
+import localStorageService from './services/localStorageService';
+import { STORAGE_KEYS } from './services/localStorageService';
 import { Loader } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 
@@ -17,12 +19,24 @@ function Layout() {
         const authService = getAuthService();
         const mode = getServiceMode();
 
+        const currentPath = window.location.pathname;
+        const isProfilePage = currentPath.includes("/profile") || currentPath.includes("/userprofile");
+
         const userData = await authService.getCurrentUser();
         if (userData) {
           setIsLogin(userData);
+          // Check for onboarding
+          const onboardingDone = localStorage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETE) === 'true';
+          if (!onboardingDone && !isProfilePage) {
+            navigate("/onboarding");
+          }
         } else if (mode === 'local') {
           // In guest mode without a user, still allow access
           setIsLogin({ name: 'Guest', $id: 'guest' });
+          const onboardingDone = localStorage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETE) === 'true';
+          if (!onboardingDone && !isProfilePage) {
+            navigate("/onboarding");
+          }
         } else {
           navigate("/login");
         }

@@ -25,6 +25,9 @@ import AdvisorHub from "./components/AdvisorHub.jsx";
 import VisualsHub from "./components/VisualsHub.jsx";
 import CustomMealBuilder from "./components/CustomMealBuilder.jsx";
 import MealPlanDetails from "./components/MealPlanDetails.jsx";
+import Onboarding from "./components/Onboarding.jsx";
+import { useEffect, useState } from "react";
+import { initializeServices } from "./services/serviceProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,12 +36,13 @@ const router = createBrowserRouter(
       <Route path="/" element={<LandingPage />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
+      <Route path="onboarding" element={<Onboarding />} />
 
       {/* App Routes (wrapped in Layout with sidebar) */}
       <Route element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="visuals" element={<VisualsHub />} />
-        <Route path="userprofile" element={<UserProfile />} />
+        <Route path="profile" element={<UserProfile />} />
         <Route path="workout" element={<Workouts />} />
         <Route path="history" element={<History />} />
         <Route path="exercises" element={<Exercises />} />
@@ -60,6 +64,20 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initializeServices().then(() => setInit(true));
+  }, []);
+
+  if (!init) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-dark-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <RouterProvider router={router} />

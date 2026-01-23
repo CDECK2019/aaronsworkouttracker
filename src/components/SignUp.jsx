@@ -1,12 +1,11 @@
 import React from 'react'
-import { useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import Input from './Input'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import authService from '../Appwrite/auth'
 
-import { Dumbbell} from 'lucide-react';
-
+import { Sparkles } from 'lucide-react';
 
 export default function SignInForm() {
   const { register, handleSubmit, formState: { errors } } = useForm()
@@ -16,117 +15,100 @@ export default function SignInForm() {
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
-    setError(""); // Clear previous errors
-  
+    setError("");
     try {
-  
-      // Attempt to create an account with the provided data
-         const response =  await authService.createAccount(data);
-         console.log(response)
-          navigate("/login")
-          
-        
-       
+      const response = await authService.createAccount(data);
+      console.log(response)
+      navigate("/login")
     } catch (error) {
       console.log("Signup error:", error);
       setError("Signup failed: " + (error.message || "Unknown error"));
     }
   };
-  
-
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className='flex justify-center items-center'>
-          <Dumbbell className="h-14 w-14 mr-3 text-blue-600" />
-          <h1 className="text-4xl font-bold text-blue-600">Fitness World</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-dark-800 p-8 rounded-3xl shadow-xl">
+        <div className='flex flex-col justify-center items-center'>
+          <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl mb-4">
+            <Sparkles className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <h1 className="text-3xl font-black text-gray-800 dark:text-white tracking-tight">You Got This!</h1>
+          <p className="text-emerald-600 dark:text-emerald-400 font-bold text-sm tracking-widest uppercase mb-2">An Optimal Life</p>
         </div>
         <div>
-          <h2 className="mt-5 text-center text-3xl font-extrabold text-gray-900">Create your account</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Stay updated on your fitness journey
+          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-white">Create your account</h2>
+          <p className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
+            Begin your journey to peak performance
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="rounded-md shadow-sm space-y-4">
+          <div className="space-y-4">
             <div>
               <Input
-                label="Name:"
-                placeholder="Enter your Name"
-                type="name"
-                {...register("name", {
-                  required: "name is Required"
-                })}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                label="Name"
+                placeholder="Enter your name"
+                type="text"
+                {...register("name", { required: "Name is required" })}
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-dark-700 border border-gray-200 dark:border-dark-600 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
-              {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>}
+              {errors.name && <p className="mt-2 text-sm text-red-500">{errors.name.message}</p>}
             </div>
-            
+
             <div>
               <Input
-                label="Email:"
+                label="Email"
                 placeholder="Enter your email"
                 type="email"
-                autoComplete="email"
                 {...register("email", {
-                  required: "Email is Required",
+                  required: "Email is required",
                   validate: {
-                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                      "Email address must be a valid address",
+                    matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Valid email required",
                   }
                 })}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-dark-700 border border-gray-200 dark:border-dark-600 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
-              {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
+              {errors.email && <p className="mt-2 text-sm text-red-500">{errors.email.message}</p>}
             </div>
-            
+
             <div className="relative">
               <Input
-                label="password"
-                id="password"
-                name="password"
+                label="Password"
                 type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
                 {...register("password", {
                   required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters long"
-                  }
+                  minLength: { value: 8, message: "Minimum 8 characters" }
                 })}
-                className="appearance-none relative block px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-dark-700 border border-gray-200 dark:border-dark-600 text-gray-900 dark:text-white rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="Choose a strong password"
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                className="absolute right-4 top-[38px] text-gray-400 hover:text-emerald-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FiEyeOff className="h-5 w-5 text-gray-500 absolute right-4 top-9 z-10" /> : <FiEye className="h-5 w-5 text-gray-500 absolute right-4 top-9 z-10" />}
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
               </button>
-              {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password.message}</p>}
+              {errors.password && <p className="mt-2 text-sm text-red-500">{errors.password.message}</p>}
             </div>
           </div>
-          
+
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex justify-center py-4 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 transform hover:scale-[1.02] transition-all"
             >
-              Create account
+              Sign Up
             </button>
           </div>
-          
-          <div className="text-center text-red-600">
-            {error && <p>{error}</p>}
-          </div>
-          
+
+          {error && <p className="text-center text-sm text-red-500">{error}</p>}
+
           <div className="text-center">
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link to="/login" className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline">
                 Sign in
               </Link>
             </p>
@@ -135,5 +117,4 @@ export default function SignInForm() {
       </div>
     </div>
   );
-  
 }

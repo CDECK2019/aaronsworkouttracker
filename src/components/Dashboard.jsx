@@ -1,5 +1,5 @@
 import React from 'react';
-import { HolisticOverview } from './index';
+import HolisticOverview from './HolisticOverview';
 import { getDataService, getAuthService, getServiceMode } from '../services/serviceProvider';
 
 import { Link } from 'react-router-dom';
