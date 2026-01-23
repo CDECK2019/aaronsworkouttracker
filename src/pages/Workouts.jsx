@@ -4,7 +4,7 @@ import WorkoutForm from '../components/WorkoutForm'
 
 function Workouts() {
   return (
-    <div >
+    <div className="min-h-screen bg-gray-100 dark:bg-dark-900 py-8 transition-colors">
       <WorkoutForm />
     </div>
   )

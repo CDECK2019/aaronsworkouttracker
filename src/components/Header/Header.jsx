@@ -47,8 +47,8 @@ function Header({ isSidebarOpen, toggleSidebar }) {
 
           {/* Profile Link */}
           <Link to="/userprofile" className="hidden md:block">
-            <div className="bg-white/20 dark:bg-purple-900 rounded-full p-2 hover:bg-white/30 dark:hover:bg-purple-800 transition-colors">
-              <UserRound className="w-6 h-6 text-white dark:text-purple-300" />
+            <div className="bg-white/20 dark:bg-emerald-900 rounded-full p-2 hover:bg-white/30 dark:hover:bg-emerald-800 transition-colors">
+              <UserRound className="w-6 h-6 text-white dark:text-emerald-300" />
             </div>
           </Link>
         </nav>
