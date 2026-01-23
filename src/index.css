@@ -63,3 +63,45 @@ footer {
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
+
+/* Throbbing animation for logo icon */
+@keyframes throb {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.animate-throb {
+  animation: throb 2s ease-in-out infinite;
+}
+
+/* Shimmer gradient animation */
+@keyframes shimmer-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.shimmer-gradient {
+  background: linear-gradient(
+    90deg,
+    #059669,
+    #10b981,
+    #34d399,
+    #6ee7b7,
+    #34d399,
+    #10b981,
+    #059669
+  );
+  background-size: 300% 100%;
+  animation: shimmer-gradient 4s ease-in-out infinite;
+}

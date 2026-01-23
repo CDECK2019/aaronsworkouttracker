@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, Menu, X, UserRound, Sun, Moon } from "lucide-react";
+import { Sun as SunIcon, Menu, X, UserRound, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -7,12 +7,12 @@ function Header({ isSidebarOpen, toggleSidebar }) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-dark-900 dark:to-dark-900 text-white shadow-lg transition-colors">
+    <header className={`${isDark ? 'bg-dark-900' : 'shimmer-gradient'} text-white shadow-lg transition-colors`}>
       <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <button
             onClick={toggleSidebar}
-            className="absolute right-0 mr-2 md:hidden hover:text-purple-200 transition-colors"
+            className="absolute right-0 mr-2 md:hidden hover:text-emerald-200 transition-colors"
           >
             {isSidebarOpen ? (
               <X className="mr-1.5" size={24} />
@@ -21,7 +21,7 @@ function Header({ isSidebarOpen, toggleSidebar }) {
             )}
           </button>
           <div className="p-1.5 bg-white/20 rounded-lg mr-2">
-            <Sparkles className="h-7 w-7" />
+            <SunIcon className="h-7 w-7 text-yellow-300 animate-throb" />
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
             <h1 className="text-2xl font-bold">You Got This!</h1>
