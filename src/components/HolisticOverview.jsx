@@ -396,8 +396,7 @@ export default function HolisticOverview() {
                         <>
                             {renderEditButton('career')}
                             <div>
-                                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Target Role</p>
-                                <p className="font-bold text-gray-900 dark:text-white truncate text-sm" title={stats.career.target}>
+                                <p className="font-bold text-gray-900 dark:text-white truncate text-lg" title={stats.career.target}>
                                     {stats.career.target || 'Not Set'}
                                 </p>
                                 {stats.career.nextMilestone && (
