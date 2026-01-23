@@ -41,12 +41,12 @@ const colorMap = {
         hover: 'hover:border-blue-400',
         gradient: 'from-blue-500/20 to-blue-600/10'
     },
-    purple: {
-        bg: 'bg-purple-500/10',
-        border: 'border-purple-500/30',
-        text: 'text-purple-600 dark:text-purple-400',
-        hover: 'hover:border-purple-400',
-        gradient: 'from-purple-500/20 to-purple-600/10'
+    indigo: {
+        bg: 'bg-indigo-500/10',
+        border: 'border-indigo-500/30',
+        text: 'text-indigo-600 dark:text-indigo-400',
+        hover: 'hover:border-indigo-400',
+        gradient: 'from-indigo-500/20 to-indigo-600/10'
     }
 };
 
@@ -196,7 +196,7 @@ const FrameworkSelector = ({ categoryId, onSelect, onBack }) => {
 const ChatMessage = ({ message, isUser }) => {
     return (
         <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
-            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isUser ? 'bg-blue-600' : 'bg-gradient-to-br from-purple-500 to-pink-500'
+            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isUser ? 'bg-blue-600' : 'bg-gradient-to-br from-emerald-500 to-teal-500'
                 }`}>
                 {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
             </div>
@@ -361,7 +361,7 @@ const ChatInterface = ({ categoryId, frameworkId, onBack }) => {
 
                 {isLoading && (
                     <div className="flex gap-3">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-emerald-500 to-teal-500">
                             <Bot className="w-4 h-4 text-white" />
                         </div>
                         <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-bl-sm p-4">

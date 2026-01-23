@@ -63,7 +63,7 @@ export const workoutPrograms = [
         frequency: '6 days/week',
         estimatedTime: '60-75 min',
         category: 'strength',
-        color: '#6366F1', // Indigo
+        color: '#0EA5E9', // Sky Blue
         icon: '🏋️',
         schedule: [
             {
@@ -149,7 +149,7 @@ export const workoutPrograms = [
         frequency: '4-5 days/week',
         estimatedTime: '15-20 min',
         category: 'stretching',
-        color: '#8B5CF6', // Purple
+        color: '#3B82F6', // Blue
         icon: '🧘',
         schedule: [
             {

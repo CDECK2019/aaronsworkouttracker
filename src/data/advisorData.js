@@ -331,7 +331,7 @@ Be compassionate and wise. Help users succeed without sacrificing their health a
         id: 'spiritual',
         name: 'Spiritual',
         icon: 'Sparkles',
-        color: 'purple',
+        color: 'indigo',
         description: 'Cultivate meaning, purpose, and inner peace',
         frameworks: [
             {

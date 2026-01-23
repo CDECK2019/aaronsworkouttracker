@@ -61,7 +61,7 @@ export default function ExerciseLibrary() {
         switch (category) {
             case 'strength': return 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400';
             case 'cardio': return 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400';
-            case 'stretching': return 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400';
+            case 'stretching': return 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400';
             default: return 'bg-gray-100 dark:bg-dark-600 text-gray-700 dark:text-gray-400';
         }
     };

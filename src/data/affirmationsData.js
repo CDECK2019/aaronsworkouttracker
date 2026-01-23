@@ -127,7 +127,7 @@ export const affirmationCategories = [
         id: 'relationships',
         name: 'Relationships & Friendships',
         icon: '👥',
-        color: 'purple',
+        color: 'blue',
         description: 'Build meaningful connections',
         affirmations: [
             "I attract positive, supportive, and loving people into my life.",
@@ -364,12 +364,12 @@ export const colorClasses = {
         badge: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400',
         gradient: 'from-teal-500 to-cyan-500'
     },
-    purple: {
-        bg: 'bg-purple-500/10',
-        border: 'border-purple-500/30',
-        text: 'text-purple-500',
-        badge: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
-        gradient: 'from-purple-500 to-violet-500'
+    cyan: {
+        bg: 'bg-cyan-500/10',
+        border: 'border-cyan-500/30',
+        text: 'text-cyan-500',
+        badge: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400',
+        gradient: 'from-cyan-500 to-teal-500'
     },
     pink: {
         bg: 'bg-pink-500/10',
@@ -383,7 +383,7 @@ export const colorClasses = {
         border: 'border-indigo-500/30',
         text: 'text-indigo-500',
         badge: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
-        gradient: 'from-indigo-500 to-purple-500'
+        gradient: 'from-indigo-500 to-blue-500'
     },
     red: {
         bg: 'bg-red-500/10',
@@ -392,13 +392,7 @@ export const colorClasses = {
         badge: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
         gradient: 'from-red-500 to-rose-500'
     },
-    cyan: {
-        bg: 'bg-cyan-500/10',
-        border: 'border-cyan-500/30',
-        text: 'text-cyan-500',
-        badge: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400',
-        gradient: 'from-cyan-500 to-teal-500'
-    },
+
     lime: {
         bg: 'bg-lime-500/10',
         border: 'border-lime-500/30',
