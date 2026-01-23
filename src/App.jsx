@@ -23,6 +23,7 @@ import FinancialHub from "./components/FinancialHub.jsx";
 import IntellectualHub from "./components/IntellectualHub.jsx";
 import CareerHub from "./components/CareerHub.jsx";
 import AdvisorHub from "./components/AdvisorHub.jsx";
+import VisualsHub from "./components/VisualsHub.jsx";
 import CustomMealBuilder from "./components/CustomMealBuilder.jsx";
 import MealPlanDetails from "./components/MealPlanDetails.jsx";
 
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
       {/* App Routes (wrapped in Layout with sidebar) */}
       <Route element={<Layout />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="visuals" element={<VisualsHub />} />
         <Route path="userprofile" element={<UserProfile />} />
         <Route path="workout" element={<Workouts />} />
         <Route path="progress" element={<Progress />} />
