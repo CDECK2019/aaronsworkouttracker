@@ -339,7 +339,7 @@ export default function HolisticOverview() {
                         <div className="p-2.5 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
                             <BookOpen size={20} />
                         </div>
-                        <span className="font-bold text-gray-700 dark:text-gray-200">{stats.intellectual.label}</span>
+                        <span className="font-bold text-gray-700 dark:text-gray-200">Intellectual</span>
                     </div>
 
                     {editing === 'intellectual' ? (
