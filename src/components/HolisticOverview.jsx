@@ -380,33 +380,22 @@ export default function HolisticOverview() {
                         <span className="font-bold text-gray-700 dark:text-gray-200">Career</span>
                     </div>
 
-                    {editing === 'career' ? (
-                        <div onClick={e => e.preventDefault()}>
-                            <label className="text-xs text-gray-500 font-bold mb-1 block">Target Role</label>
-                            <input
-                                type="text"
-                                value={editValues.careerTarget}
-                                onChange={e => handleInputChange('careerTarget', e.target.value)}
-                                className="w-full p-1 text-sm border rounded mb-2"
-                                autoFocus
-                            />
-                            {renderSaveCancel('career', saveEdits)}
-                        </div>
-                    ) : (
-                        <>
-                            {renderEditButton('career')}
-                            <div>
-                                <p className="font-bold text-gray-900 dark:text-white truncate text-lg" title={stats.career.target}>
-                                    {stats.career.target || 'Not Set'}
+                    <div>
+                        {stats.career.nextMilestone ? (
+                            <>
+                                <p className="font-bold text-gray-900 dark:text-white truncate text-lg" title={stats.career.nextMilestone.title}>
+                                    {stats.career.nextMilestone.title}
                                 </p>
-                                {stats.career.nextMilestone && (
-                                    <div className="mt-2 pt-2 border-t border-emerald-200 dark:border-emerald-800/50">
-                                        <p className="text-xs text-emerald-600 dark:text-emerald-400 truncate">Latest: {stats.career.nextMilestone.title}</p>
-                                    </div>
-                                )}
-                            </div>
-                        </>
-                    )}
+                                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                                    Latest milestone
+                                </p>
+                            </>
+                        ) : (
+                            <p className="text-gray-500 dark:text-gray-400 text-sm italic">
+                                No milestones yet
+                            </p>
+                        )}
+                    </div>
                 </Link>
 
             </div>
