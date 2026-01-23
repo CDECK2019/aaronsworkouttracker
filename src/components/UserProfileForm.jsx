@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { User, Target, Pill } from 'lucide-react';
+import { User, Target, Pill, HeartPulse } from 'lucide-react';
 import UserProfileGeneral from './UserProfileGeneral';
 import HolisticGoalsForm from './HolisticGoalsForm';
 import SupplementsManager from './SupplementsManager';
+import HealthConsiderationsForm from './HealthConsiderationsForm';
 
 export default function UserProfileForm() {
   const [activeTab, setActiveTab] = useState('general');
@@ -11,6 +12,7 @@ export default function UserProfileForm() {
     { id: 'general', label: 'General Profile', icon: User },
     { id: 'goals', label: 'Holistic Goals', icon: Target },
     { id: 'supplements', label: 'Supplements', icon: Pill },
+    { id: 'health', label: 'Health Considerations', icon: HeartPulse },
   ];
 
   return (
@@ -34,8 +36,8 @@ export default function UserProfileForm() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-colors border-b-2 whitespace-nowrap ${activeTab === tab.id
-                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300'
+                ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300'
                 }`}
             >
               <Icon className="w-4 h-4" />
@@ -50,6 +52,7 @@ export default function UserProfileForm() {
         {activeTab === 'general' && <UserProfileGeneral />}
         {activeTab === 'goals' && <HolisticGoalsForm />}
         {activeTab === 'supplements' && <SupplementsManager />}
+        {activeTab === 'health' && <HealthConsiderationsForm />}
       </div>
     </div>
   );

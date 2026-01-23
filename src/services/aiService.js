@@ -137,6 +137,12 @@ export const gatherUserContext = async () => {
             };
         }
 
+        // Health Considerations
+        const healthConsiderations = await service.getHealthConsiderations?.();
+        if (healthConsiderations && healthConsiderations.length > 0) {
+            context.healthConsiderations = healthConsiderations;
+        }
+
     } catch (error) {
         console.error('Error gathering user context:', error);
     }
@@ -243,6 +249,15 @@ export const formatContextForAI = (context) => {
             const trend = context.weightProgress.trend > 0 ? '+' : '';
             formatted += `- Trend: ${trend}${context.weightProgress.trend.toFixed(1)} lbs overall\n`;
         }
+        formatted += '\n';
+    }
+
+    if (context.healthConsiderations && context.healthConsiderations.length > 0) {
+        formatted += '## Health Considerations\n';
+        formatted += 'The user has noted the following health considerations that may affect recommendations:\n';
+        context.healthConsiderations.forEach(h => {
+            formatted += `- ${h.name} (${h.category})${h.notes ? `: ${h.notes}` : ''}\n`;
+        });
         formatted += '\n';
     }
 

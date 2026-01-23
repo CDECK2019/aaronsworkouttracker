@@ -22,6 +22,7 @@ const STORAGE_KEYS = {
   FINANCIAL_DATA: 'fitness_financial_data',
   INTELLECTUAL_DATA: 'fitness_intellectual_data',
   CAREER_DATA: 'fitness_career_data',
+  HEALTH_CONSIDERATIONS: 'fitness_health_considerations',
 };
 
 // Helper to generate unique IDs
@@ -516,6 +517,17 @@ class LocalStorageService {
       milestones: [],
       networking: []
     };
+  }
+
+  // ==================== HEALTH CONSIDERATIONS ====================
+
+  async saveHealthConsiderations(considerations) {
+    setStorage(STORAGE_KEYS.HEALTH_CONSIDERATIONS, considerations);
+    return considerations;
+  }
+
+  async getHealthConsiderations() {
+    return getStorage(STORAGE_KEYS.HEALTH_CONSIDERATIONS) || [];
   }
 }
 
