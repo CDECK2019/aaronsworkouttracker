@@ -72,7 +72,7 @@ export default function HolisticOverview() {
                 },
                 career: {
                     current: goals.career?.currentTitle || 'Not Set',
-                    target: nextMilestone ? nextMilestone.title : (goals.career?.targetTitle || ''),
+                    target: goals.career?.targetTitle || 'Not Set',
                     nextMilestone: nextMilestone
                 }
             });
@@ -83,7 +83,7 @@ export default function HolisticOverview() {
                 mindfulnessTarget: goals.mindfulness?.minutesPerWeek || 60,
                 financialTarget: activeGoal?.targetAmount || 0,
                 intellectualTarget: goals.intellectual?.booksPerYear || 12,
-                careerTarget: nextMilestone ? nextMilestone.title : (goals.career?.targetTitle || '')
+                careerTarget: goals.career?.targetTitle || ''
             });
 
         } catch (error) {

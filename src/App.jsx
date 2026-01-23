@@ -22,6 +22,7 @@ import MindfulnessHub from "./components/MindfulnessHub.jsx";
 import FinancialHub from "./components/FinancialHub.jsx";
 import IntellectualHub from "./components/IntellectualHub.jsx";
 import CareerHub from "./components/CareerHub.jsx";
+import AdvisorHub from "./components/AdvisorHub.jsx";
 import CustomMealBuilder from "./components/CustomMealBuilder.jsx";
 import MealPlanDetails from "./components/MealPlanDetails.jsx";
 
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
         <Route path="financial" element={<FinancialHub />} />
         <Route path="intellectual" element={<IntellectualHub />} />
         <Route path="career" element={<CareerHub />} />
+        <Route path="advisor" element={<AdvisorHub />} />
       </Route>
     </Route>
   )

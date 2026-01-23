@@ -397,6 +397,22 @@ class LocalStorageService {
     return getStorage(STORAGE_KEYS.MINDFULNESS_LOGS) || [];
   }
 
+  async deleteMindfulnessSession(sessionId) {
+    const logs = getStorage(STORAGE_KEYS.MINDFULNESS_LOGS) || [];
+    const filtered = logs.filter(l => l.$id !== sessionId);
+    setStorage(STORAGE_KEYS.MINDFULNESS_LOGS, filtered);
+    return true;
+  }
+
+  async updateMindfulnessSession(sessionId, updates) {
+    const logs = getStorage(STORAGE_KEYS.MINDFULNESS_LOGS) || [];
+    const updated = logs.map(l =>
+      l.$id === sessionId ? { ...l, ...updates, $updatedAt: new Date().toISOString() } : l
+    );
+    setStorage(STORAGE_KEYS.MINDFULNESS_LOGS, updated);
+    return updated.find(l => l.$id === sessionId);
+  }
+
   // ==================== HOLISTIC GOALS ====================
 
   async saveHolisticGoals(goals) {

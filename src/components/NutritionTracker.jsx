@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ChevronLeft, ChevronRight, Plus, Droplets, Flame,
-    Wheat, Egg, Fish, Utensils, Search, X, BookOpen
+    Wheat, Egg, Fish, Utensils, Search, X, BookOpen, Edit2, Check
 } from 'lucide-react';
 import { getDataService, getAuthService } from '../services/serviceProvider';
 import { commonFoods, getNutritionGoals } from '../data/mealData';
@@ -19,6 +19,8 @@ export default function NutritionTracker() {
     const [showAddModal, setShowAddModal] = useState(false);
     const [selectedMealType, setSelectedMealType] = useState('breakfast');
     const [searchTerm, setSearchTerm] = useState('');
+    const [editingMeal, setEditingMeal] = useState(null);
+    const [editValues, setEditValues] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
 
     useEffect(() => {
         loadData();
@@ -124,6 +126,44 @@ export default function NutritionTracker() {
         }
     };
 
+    const startEditMeal = (meal) => {
+        setEditingMeal(meal.id);
+        setEditValues({
+            calories: meal.calories,
+            protein: meal.protein,
+            carbs: meal.carbs,
+            fat: meal.fat
+        });
+    };
+
+    const updateMeal = async (mealId) => {
+        const updatedLog = {
+            ...log,
+            meals: log.meals.map(m =>
+                m.id === mealId
+                    ? {
+                        ...m,
+                        calories: parseInt(editValues.calories) || 0,
+                        protein: parseInt(editValues.protein) || 0,
+                        carbs: parseInt(editValues.carbs) || 0,
+                        fat: parseInt(editValues.fat) || 0
+                    }
+                    : m
+            )
+        };
+        calculateTotals(updatedLog);
+        setEditingMeal(null);
+
+        try {
+            const dataService = getDataService();
+            if (dataService.saveNutritionLog) {
+                await dataService.saveNutritionLog(date, updatedLog);
+            }
+        } catch (error) {
+            console.error('Error updating meal:', error);
+        }
+    };
+
     const updateWater = async (amount) => {
         const newAmount = Math.max(0, log.waterIntake + amount);
         const updatedLog = { ...log, waterIntake: newAmount };
@@ -184,18 +224,81 @@ export default function NutritionTracker() {
                     <div className="space-y-3">
                         {meals.map(meal => (
                             <div key={meal.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-dark-700 rounded-xl group">
-                                <div>
+                                <div className="flex-1">
                                     <p className="font-medium text-gray-800 dark:text-white">{meal.name}</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                                        {meal.calories} kcal • {meal.protein}g P • {meal.carbs}g C • {meal.fat}g F
-                                    </p>
+                                    {editingMeal === meal.id ? (
+                                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                                            <div className="flex items-center gap-1">
+                                                <input
+                                                    type="number"
+                                                    value={editValues.calories}
+                                                    onChange={(e) => setEditValues({ ...editValues, calories: e.target.value })}
+                                                    className="w-14 px-1 py-0.5 text-xs border rounded dark:bg-dark-600 dark:border-dark-500"
+                                                />
+                                                <span className="text-xs text-gray-500">cal</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <input
+                                                    type="number"
+                                                    value={editValues.protein}
+                                                    onChange={(e) => setEditValues({ ...editValues, protein: e.target.value })}
+                                                    className="w-10 px-1 py-0.5 text-xs border rounded dark:bg-dark-600 dark:border-dark-500"
+                                                />
+                                                <span className="text-xs text-gray-500">P</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <input
+                                                    type="number"
+                                                    value={editValues.carbs}
+                                                    onChange={(e) => setEditValues({ ...editValues, carbs: e.target.value })}
+                                                    className="w-10 px-1 py-0.5 text-xs border rounded dark:bg-dark-600 dark:border-dark-500"
+                                                />
+                                                <span className="text-xs text-gray-500">C</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <input
+                                                    type="number"
+                                                    value={editValues.fat}
+                                                    onChange={(e) => setEditValues({ ...editValues, fat: e.target.value })}
+                                                    className="w-10 px-1 py-0.5 text-xs border rounded dark:bg-dark-600 dark:border-dark-500"
+                                                />
+                                                <span className="text-xs text-gray-500">F</span>
+                                            </div>
+                                            <button
+                                                onClick={() => updateMeal(meal.id)}
+                                                className="p-1 text-emerald-500 hover:text-emerald-600"
+                                            >
+                                                <Check className="w-4 h-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => setEditingMeal(null)}
+                                                className="p-1 text-gray-400 hover:text-gray-600"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            {meal.calories} kcal • {meal.protein}g P • {meal.carbs}g C • {meal.fat}g F
+                                        </p>
+                                    )}
                                 </div>
-                                <button
-                                    onClick={() => removeMeal(meal.id)}
-                                    className="text-red-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                                >
-                                    <X className="w-4 h-4" />
-                                </button>
+                                {editingMeal !== meal.id && (
+                                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button
+                                            onClick={() => startEditMeal(meal)}
+                                            className="text-gray-400 hover:text-emerald-500"
+                                        >
+                                            <Edit2 className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={() => removeMeal(meal.id)}
+                                            className="text-red-400 hover:text-red-500"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Target, Utensils, Brain, Save, DollarSign, BookOpen, Briefcase } from 'lucide-react';
+import { Target, Utensils, Brain, Save, DollarSign, BookOpen, Briefcase, Award } from 'lucide-react';
 import { toast } from 'react-toastify';
 import localStorageService from '../services/localStorageService';
 
@@ -8,7 +8,8 @@ export default function HolisticGoalsForm() {
     const { register, handleSubmit, setValue } = useForm();
     const [loading, setLoading] = useState(false);
     const [financialGoals, setFinancialGoals] = useState([]);
-    const [intellectualLabels, setIntellectualLabels] = useState({ category1: 'Intellectual' });
+    const [intellectualLabels, setIntellectualLabels] = useState({ category1: 'Books Read', category2: 'Skills Mastered' });
+    const [careerMilestones, setCareerMilestones] = useState([]);
 
     useEffect(() => {
         const fetchGoals = async () => {
@@ -17,7 +18,16 @@ export default function HolisticGoalsForm() {
             const intData = await localStorageService.getIntellectualData();
 
             if (intData) {
-                setIntellectualLabels({ category1: intData.category1Label || 'Intellectual' });
+                setIntellectualLabels({
+                    category1: intData.category1Label || 'Books Read',
+                    category2: intData.category2Label || 'Skills Mastered'
+                });
+            }
+
+            // Fetch career milestones
+            const careerData = await localStorageService.getCareerData();
+            if (careerData && careerData.milestones) {
+                setCareerMilestones(careerData.milestones.slice(0, 3));
             }
 
             if (goals) {
@@ -224,22 +234,26 @@ export default function HolisticGoalsForm() {
                         <h3 className="font-bold text-lg">Career</h3>
                     </div>
                     <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Title</label>
-                            <input
-                                type="text"
-                                {...register("career.currentTitle")}
-                                className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Title</label>
-                            <input
-                                type="text"
-                                {...register("career.targetTitle")}
-                                className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
-                            />
-                        </div>
+                        {/* Milestones from CareerHub */}
+                        {careerMilestones.length > 0 ? (
+                            <div>
+                                <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase mb-2 flex items-center gap-1">
+                                    <Award className="w-3 h-3" /> Recent Milestones
+                                </p>
+                                <div className="space-y-2">
+                                    {careerMilestones.map(m => (
+                                        <div key={m.id} className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            <span>{m.title}</span>
+                                            <span className="text-xs text-gray-400">({new Date(m.date).toLocaleDateString()})</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-gray-400 mt-3 italic">Manage milestones in the Career Hub</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm text-gray-500 italic">No milestones yet. Add them in the Career Hub.</p>
+                        )}
                     </div>
                 </div>
 

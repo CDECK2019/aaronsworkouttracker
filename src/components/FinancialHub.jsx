@@ -9,9 +9,15 @@ export default function FinancialHub() {
     const [editingId, setEditingId] = useState(null);
     const [editValues, setEditValues] = useState({ title: '', current: '', target: '' });
 
-    // ... useEffect ...
-
-    // ... handleAddGoal ...
+    useEffect(() => {
+        const fetchData = async () => {
+            const finData = await localStorageService.getFinancialData();
+            if (finData && finData.goals) {
+                setGoals(finData.goals);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleAddGoal = async (e) => {
         e.preventDefault();

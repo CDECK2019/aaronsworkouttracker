@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dumbbell, Home, BarChart2, Clock, User, BookOpen, PlayCircle, LogOut, Utensils, Brain, DollarSign, Briefcase } from 'lucide-react';
+import { Dumbbell, Home, BarChart2, Clock, User, BookOpen, PlayCircle, LogOut, Utensils, Brain, DollarSign, Briefcase, MessageSquare } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthService, setGuestMode } from '../../services/serviceProvider';
 
@@ -68,6 +68,11 @@ function SideBar({ isSidebarOpen }) {
         <NavLink to="/career" className={navLinkClass}>
           <Briefcase className="mr-3 h-5 w-5" />
           Career
+        </NavLink>
+
+        <NavLink to="/advisor" className={navLinkClass}>
+          <MessageSquare className="mr-3 h-5 w-5" />
+          Advisor
         </NavLink>
 
         <NavLink to="/workout" className={navLinkClass}>
