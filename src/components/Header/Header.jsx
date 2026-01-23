@@ -1,5 +1,5 @@
 import React from "react";
-import { Dumbbell, Menu, X, UserRound, Sun, Moon } from "lucide-react";
+import { Sparkles, Menu, X, UserRound, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -7,12 +7,12 @@ function Header({ isSidebarOpen, toggleSidebar }) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
-    <header className="bg-emerald-600 dark:bg-dark-900 text-white shadow-lg transition-colors">
+    <header className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-dark-900 dark:to-dark-900 text-white shadow-lg transition-colors">
       <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <button
             onClick={toggleSidebar}
-            className="absolute right-0 mr-2 md:hidden hover:text-emerald-200 transition-colors"
+            className="absolute right-0 mr-2 md:hidden hover:text-purple-200 transition-colors"
           >
             {isSidebarOpen ? (
               <X className="mr-1.5" size={24} />
@@ -21,9 +21,12 @@ function Header({ isSidebarOpen, toggleSidebar }) {
             )}
           </button>
           <div className="p-1.5 bg-white/20 rounded-lg mr-2">
-            <Dumbbell className="h-7 w-7" />
+            <Sparkles className="h-7 w-7" />
           </div>
-          <h1 className="text-2xl font-bold">Fitness World</h1>
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+            <h1 className="text-2xl font-bold">You Got This!</h1>
+            <span className="text-xs sm:text-sm text-white/70 hidden sm:inline">An Optimal Life</span>
+          </div>
         </div>
 
         <nav className="flex items-center space-x-4">
@@ -44,8 +47,8 @@ function Header({ isSidebarOpen, toggleSidebar }) {
 
           {/* Profile Link */}
           <Link to="/userprofile" className="hidden md:block">
-            <div className="bg-emerald-100 dark:bg-emerald-900 rounded-full p-2 hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-colors">
-              <UserRound className="w-6 h-6 text-emerald-700 dark:text-emerald-300" />
+            <div className="bg-white/20 dark:bg-purple-900 rounded-full p-2 hover:bg-white/30 dark:hover:bg-purple-800 transition-colors">
+              <UserRound className="w-6 h-6 text-white dark:text-purple-300" />
             </div>
           </Link>
         </nav>

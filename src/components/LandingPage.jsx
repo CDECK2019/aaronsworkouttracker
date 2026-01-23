@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dumbbell, Target, TrendingUp, Users, ArrowRight, Zap, Sun, Moon } from 'lucide-react';
+import { Sparkles, Target, TrendingUp, Heart, ArrowRight, Brain, Sun, Moon, Wallet, BookOpen } from 'lucide-react';
 import { setGuestMode } from '../services/serviceProvider';
 import { useTheme } from '../context/ThemeContext';
 
@@ -15,34 +15,34 @@ export default function LandingPage() {
 
     const features = [
         {
-            icon: <Target className="w-8 h-8" />,
-            title: 'Track Your Goals',
-            description: 'Set daily and weekly fitness goals and watch your progress unfold.',
+            icon: <Heart className="w-8 h-8" />,
+            title: 'Mind & Body',
+            description: 'Track fitness, nutrition, and mindfulness to nurture your complete well-being.',
         },
         {
-            icon: <Dumbbell className="w-8 h-8" />,
-            title: 'Workout Library',
-            description: 'Access 50+ exercises with detailed instructions and animations.',
+            icon: <Wallet className="w-8 h-8" />,
+            title: 'Financial Freedom',
+            description: 'Set savings goals, track habits, and build your path to financial independence.',
         },
         {
             icon: <TrendingUp className="w-8 h-8" />,
-            title: 'Progress Charts',
-            description: 'Visualize your weight and workout progress with beautiful charts.',
+            title: 'Career Growth',
+            description: 'Log milestones, track achievements, and accelerate your professional journey.',
         },
         {
-            icon: <Zap className="w-8 h-8" />,
-            title: 'Custom Programs',
-            description: "Build your own workout programs or choose from presets.",
+            icon: <BookOpen className="w-8 h-8" />,
+            title: 'Intellectual Growth',
+            description: 'Set learning goals, track progress, and expand your knowledge continuously.',
         },
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
             {/* Animated background */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
-                <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse delay-500"></div>
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
+                <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse delay-500"></div>
             </div>
 
             {/* Content */}
@@ -51,10 +51,13 @@ export default function LandingPage() {
                 <header className="px-6 py-6">
                     <div className="max-w-7xl mx-auto flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                                <Dumbbell className="w-8 h-8 text-white" />
+                            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
+                                <Sparkles className="w-8 h-8 text-white" />
                             </div>
-                            <span className="text-2xl font-bold text-white">Fitness World</span>
+                            <div>
+                                <span className="text-2xl font-bold text-white">You Got This!</span>
+                                <span className="hidden sm:inline text-sm text-slate-400 ml-2">An Optimal Life</span>
+                            </div>
                         </div>
                         <div className="flex items-center space-x-4">
                             <button
@@ -66,7 +69,7 @@ export default function LandingPage() {
                             </button>
                             <Link
                                 to="/login"
-                                className="px-6 py-2 text-sm font-medium text-emerald-400 border border-emerald-400 rounded-full hover:bg-emerald-400 hover:text-white transition-all duration-300"
+                                className="px-6 py-2 text-sm font-medium text-purple-400 border border-purple-400 rounded-full hover:bg-purple-400 hover:text-white transition-all duration-300"
                             >
                                 Sign In
                             </Link>
@@ -78,19 +81,19 @@ export default function LandingPage() {
                 <section className="px-6 py-20 md:py-32">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
-                            Transform Your
-                            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-green-400 bg-clip-text text-transparent"> Fitness Journey</span>
+                            Design Your
+                            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent"> Optimal Life</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-                            Track workouts, monitor progress, and crush your fitness goals with our intuitive and powerful fitness tracker.
+                            Track your holistic wellness journey. Fitness, mindfulness, finances, career, and intellectual growth — all in one beautiful dashboard.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <button
                                 onClick={handleGuestStart}
-                                className="group px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center space-x-2"
+                                className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center space-x-2"
                             >
-                                <span>Get Started Free</span>
+                                <span>Start Your Journey</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
                             <Link
@@ -111,15 +114,15 @@ export default function LandingPage() {
                 <section className="px-6 py-20">
                     <div className="max-w-6xl mx-auto">
                         <h2 className="text-3xl font-bold text-white text-center mb-12">
-                            Everything you need to succeed
+                            Everything you need to thrive
                         </h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {features.map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 transition-all duration-300"
+                                    className="group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300"
                                 >
-                                    <div className="p-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl w-fit mb-4 text-emerald-400 group-hover:text-teal-400 transition-colors">
+                                    <div className="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl w-fit mb-4 text-purple-400 group-hover:text-pink-400 transition-colors">
                                         {feature.icon}
                                     </div>
                                     <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
@@ -133,18 +136,18 @@ export default function LandingPage() {
                 {/* CTA Section */}
                 <section className="px-6 py-20">
                     <div className="max-w-4xl mx-auto text-center">
-                        <div className="p-8 md:p-12 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 rounded-3xl border border-emerald-500/20 backdrop-blur-sm">
+                        <div className="p-8 md:p-12 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-3xl border border-purple-500/20 backdrop-blur-sm">
                             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                                Ready to start your fitness journey?
+                                Ready to live your optimal life?
                             </h2>
                             <p className="text-slate-300 mb-8">
-                                No credit card required. Start tracking your fitness today.
+                                No credit card required. Start tracking your wellness journey today.
                             </p>
                             <button
                                 onClick={handleGuestStart}
                                 className="px-10 py-4 bg-white text-slate-900 font-semibold rounded-full hover:bg-slate-100 transition-colors"
                             >
-                                Start Now — It's Free
+                                You Got This! — Start Free
                             </button>
                         </div>
                     </div>
@@ -154,11 +157,11 @@ export default function LandingPage() {
                 <footer className="px-6 py-8 border-t border-white/10">
                     <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="flex items-center space-x-2 text-slate-400">
-                            <Dumbbell className="w-5 h-5" />
-                            <span className="text-sm">Fitness World © 2024</span>
+                            <Sparkles className="w-5 h-5" />
+                            <span className="text-sm">You Got This! © 2024</span>
                         </div>
                         <p className="text-sm text-slate-500">
-                            Built with ❤️ for fitness enthusiasts
+                            Built with ❤️ for your optimal life
                         </p>
                     </div>
                 </footer>
