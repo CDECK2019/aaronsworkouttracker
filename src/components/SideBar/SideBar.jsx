@@ -85,11 +85,6 @@ function SideBar({ isSidebarOpen }) {
           Workout
         </NavLink>
 
-        <NavLink to="/progress" className={navLinkClass}>
-          <BarChart2 className="mr-3 h-5 w-5" />
-          Progress
-        </NavLink>
-
         <NavLink to="/history" className={navLinkClass}>
           <Clock className="mr-3 h-5 w-5" />
           History

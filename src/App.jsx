@@ -8,7 +8,6 @@ import Layout from "./Layout.jsx";
 import { Dashboard } from "./components/index.js";
 import Workouts from "./pages/Workouts.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
-import Progress from "./pages/Progress.jsx";
 import History from "./pages/History.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
@@ -41,7 +40,6 @@ const router = createBrowserRouter(
         <Route path="visuals" element={<VisualsHub />} />
         <Route path="userprofile" element={<UserProfile />} />
         <Route path="workout" element={<Workouts />} />
-        <Route path="progress" element={<Progress />} />
         <Route path="history" element={<History />} />
         <Route path="exercises" element={<Exercises />} />
         <Route path="programs" element={<Programs />} />
