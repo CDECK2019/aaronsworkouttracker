@@ -219,6 +219,20 @@ export const workoutPrograms = [
         ],
         weeklySchedule: ['Core Day', 'Flexibility Day', 'Core Day', 'Rest', 'Core Day', 'Flexibility Day', 'Rest'],
     },
+    {
+        id: 'custom_routine',
+        name: 'Custom Routine',
+        description: 'Design your own schedule or follow a different plan.',
+        level: 'any',
+        duration: 'Flexible',
+        frequency: 'Flexible',
+        estimatedTime: 'Varies',
+        category: 'general',
+        color: '#8B5CF6', // Violet
+        icon: '✨',
+        schedule: [], // Empty schedule for custom
+        weeklySchedule: ['Rest', 'Rest', 'Rest', 'Rest', 'Rest', 'Rest', 'Rest'],
+    },
 ];
 
 // Helper functions

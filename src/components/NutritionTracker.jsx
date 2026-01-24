@@ -24,6 +24,12 @@ export default function NutritionTracker() {
 
     useEffect(() => {
         loadData();
+
+        // Listen for updates from other components
+        const handleDataChange = () => loadData();
+        window.addEventListener('fitness_data_changed', handleDataChange);
+
+        return () => window.removeEventListener('fitness_data_changed', handleDataChange);
     }, [date]);
 
     // Load goals and daily log
@@ -36,10 +42,24 @@ export default function NutritionTracker() {
             // Get user profile for goals
             let userGoals = { calories: 2000, protein: 150, carbs: 250, fat: 70 };
             try {
-                const user = await authService.getCurrentUser();
-                if (user) {
-                    const profile = await dataService.getUserInformation(null, user.$id);
-                    userGoals = getNutritionGoals(profile);
+                // Fetch from Holistic Goals (new source)
+                if (dataService.getHolisticGoals) {
+                    const holisticGoals = await dataService.getHolisticGoals();
+                    if (holisticGoals && holisticGoals.nutrition) {
+                        userGoals = {
+                            calories: holisticGoals.nutrition.calories || 2000,
+                            protein: holisticGoals.nutrition.protein || 150,
+                            carbs: holisticGoals.nutrition.carbs || 250,
+                            fat: holisticGoals.nutrition.fat || 70
+                        };
+                    }
+                } else {
+                    // Fallback to old profile method if needed
+                    const user = await authService.getCurrentUser();
+                    if (user) {
+                        const profile = await dataService.getUserInformation(null, user.$id);
+                        userGoals = getNutritionGoals(profile);
+                    }
                 }
             } catch (e) {
                 console.log('Guest mode or no profile, using defaults');

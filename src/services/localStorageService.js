@@ -24,6 +24,7 @@ const STORAGE_KEYS = {
   CAREER_DATA: 'fitness_career_data',
   HEALTH_CONSIDERATIONS: 'fitness_health_considerations',
   ONBOARDING_COMPLETE: 'fitness_onboarding_complete',
+  ACTIVE_PROGRAM: 'fitness_active_program',
 };
 
 // Helper to generate unique IDs
@@ -219,6 +220,22 @@ class LocalStorageService {
 
     setStorage(STORAGE_KEYS.WEEKLY_GOALS, updated);
     return updated;
+  }
+
+  // ==================== ACTIVE PROGRAM ====================
+
+  async saveActiveProgram(programId, startDate = new Date().toISOString()) {
+    const activeProgram = {
+      programId,
+      startDate,
+      $updatedAt: new Date().toISOString()
+    };
+    setStorage(STORAGE_KEYS.ACTIVE_PROGRAM, activeProgram);
+    return activeProgram;
+  }
+
+  async getActiveProgram() {
+    return getStorage(STORAGE_KEYS.ACTIVE_PROGRAM);
   }
 
   // ==================== WEIGHT PROGRESS ====================
@@ -422,6 +439,10 @@ class LocalStorageService {
     const existing = getStorage(STORAGE_KEYS.HOLISTIC_GOALS) || {};
     const updated = { ...existing, ...goals, $updatedAt: new Date().toISOString() };
     setStorage(STORAGE_KEYS.HOLISTIC_GOALS, updated);
+
+    // Dispatch event for cross-component updates
+    window.dispatchEvent(new Event('fitness_data_changed'));
+
     return updated;
   }
 

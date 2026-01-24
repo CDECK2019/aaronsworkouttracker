@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Target, Utensils, Brain, Save, DollarSign, BookOpen, Briefcase, Award } from 'lucide-react';
+import { Target, Utensils, Brain, Save, DollarSign, BookOpen, Briefcase, Award, CheckCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import localStorageService from '../services/localStorageService';
+import { workoutPrograms } from '../data/workoutPrograms';
+import { dietTemplates, calculateMacros } from '../data/dietTemplates';
 
 export default function HolisticGoalsForm({ section = null }) {
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, watch, getValues } = useForm();
+    const selectedProgramId = watch('fitness.selectedProgramId');
     const [loading, setLoading] = useState(false);
     const [financialGoals, setFinancialGoals] = useState([]);
     const [intellectualLabels, setIntellectualLabels] = useState({ category1: 'Books Read', category2: 'Skills Mastered' });
@@ -32,8 +35,10 @@ export default function HolisticGoalsForm({ section = null }) {
 
             if (goals) {
                 // Fitness
+                setValue('fitness.currentWeight', goals.fitness?.currentWeight);
                 setValue('fitness.targetWeight', goals.fitness?.targetWeight);
                 setValue('fitness.workoutsPerWeek', goals.fitness?.workoutsPerWeek);
+                setValue('fitness.selectedProgramId', goals.fitness?.selectedProgramId);
                 // Nutrition
                 setValue('nutrition.calories', goals.nutrition?.calories);
                 setValue('nutrition.protein', goals.nutrition?.protein);
@@ -58,6 +63,8 @@ export default function HolisticGoalsForm({ section = null }) {
         };
         fetchGoals();
     }, [setValue]);
+
+
 
     const onSubmit = async (data) => {
         setLoading(true);
@@ -84,6 +91,12 @@ export default function HolisticGoalsForm({ section = null }) {
                 setFinancialGoals(updatedFinancialGoals);
             }
 
+            // 3. Save Active Program if changed
+            if (data.fitness?.selectedProgramId) {
+                await localStorageService.saveActiveProgram(data.fitness.selectedProgramId);
+            }
+
+
             toast.success("Goals synced successfully!");
         } catch (error) {
             console.error(error);
@@ -100,25 +113,76 @@ export default function HolisticGoalsForm({ section = null }) {
                 <h3 className="font-bold text-lg">Fitness Targets</h3>
             </div>
             <div className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Weight (lbs)</label>
-                    <input
-                        type="number"
-                        {...register("fitness.targetWeight", { valueAsNumber: true })}
-                        className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Weight (lbs)</label>
+                        <input
+                            type="number"
+                            {...register("fitness.currentWeight", { valueAsNumber: true })}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Weight (lbs)</label>
+                        <input
+                            type="number"
+                            {...register("fitness.targetWeight", { valueAsNumber: true })}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
                 </div>
+
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Workouts / Week</label>
-                    <input
-                        type="number"
-                        {...register("fitness.workoutsPerWeek", { valueAsNumber: true })}
-                        className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
-                    />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Selected Program</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {workoutPrograms.map(program => {
+                            const isSelected = selectedProgramId === program.id;
+                            return (
+                                <div
+                                    key={program.id}
+                                    onClick={() => setValue('fitness.selectedProgramId', program.id, { shouldDirty: true })}
+                                    className={`cursor-pointer p-4 rounded-xl border-2 transition-all relative ${isSelected ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'border-gray-200 dark:border-dark-700 hover:border-emerald-300'}`}
+                                >
+                                    {isSelected && (
+                                        <div className="absolute top-2 right-2 text-emerald-500">
+                                            <CheckCircle className="w-5 h-5 fill-emerald-100" />
+                                        </div>
+                                    )}
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-2xl">{program.icon}</div>
+                                        <div>
+                                            <h4 className="font-bold text-gray-800 dark:text-gray-200">{program.name}</h4>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{program.level} • {program.frequency}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {/* Hidden input to register the value */}
+                    <input type="hidden" {...register("fitness.selectedProgramId")} />
                 </div>
             </div>
         </div>
     );
+
+    const handleDietSelect = (templateId) => {
+        let currentCalories = getValues('nutrition.calories');
+        // Ensure we set calories if empty/0 so macros calculate correctly
+        if (!currentCalories) {
+            currentCalories = 2000;
+            setValue('nutrition.calories', 2000, { shouldValidate: true, shouldDirty: true });
+        }
+
+        const macros = calculateMacros(currentCalories, templateId);
+        if (macros) {
+            setValue('nutrition.protein', macros.protein, { shouldValidate: true, shouldDirty: true });
+            setValue('nutrition.carbs', macros.carbs, { shouldValidate: true, shouldDirty: true });
+            setValue('nutrition.fat', macros.fat, { shouldValidate: true, shouldDirty: true });
+            const templateName = dietTemplates.find(t => t.id === templateId)?.name;
+            toast.info(`Applied ${templateName} macros`);
+        }
+    };
 
     const renderNutrition = () => (
         <div className="bg-orange-50 dark:bg-orange-900/10 p-6 rounded-xl border border-orange-100 dark:border-orange-800">
@@ -126,6 +190,28 @@ export default function HolisticGoalsForm({ section = null }) {
                 <Utensils className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Nutrition Goals</h3>
             </div>
+
+            {/* Diet Templates */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Diet Templates (Auto-fill Macros)</label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {dietTemplates.map(template => (
+                        <button
+                            key={template.id}
+                            type="button"
+                            onClick={() => handleDietSelect(template.id)}
+                            className="p-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-orange-400 hover:shadow-md transition-all text-left flex flex-col gap-2 group"
+                        >
+                            <span className="text-2xl">{template.icon}</span>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200 group-hover:text-orange-600 transition-colors">{template.name}</h4>
+                                <p className="text-[10px] text-gray-400 leading-tight mt-1">{template.description}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Calories</label>
@@ -133,6 +219,7 @@ export default function HolisticGoalsForm({ section = null }) {
                         type="number"
                         {...register("nutrition.calories", { valueAsNumber: true })}
                         className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-orange-500 text-gray-900 dark:text-white"
+                        placeholder="2000"
                     />
                 </div>
                 <div>

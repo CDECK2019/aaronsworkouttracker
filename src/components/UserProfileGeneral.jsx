@@ -102,65 +102,55 @@ function UserProfileGeneral() {
                         />
                         {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
                     </div>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
+                    <div className="flex gap-6">
+                        <div className="w-32">
                             <label htmlFor="age" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Age:</label>
                             <input
                                 type="number"
                                 id="age"
                                 {...register("age", {
-                                    required: "Age is required",
-                                    min: { value: 1, message: "Age must be positive" },
+                                    required: "Required",
+                                    min: { value: 1, message: "> 0" },
                                     valueAsNumber: true
                                 })}
                                 onChange={() => setHasChanged(true)}
                                 className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
-                            {errors.age && <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>}
+                            {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age.message}</p>}
                         </div>
-                        <div className="flex-1">
-                            <label htmlFor="weight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weight LBS:</label>
+                        <div className="w-32">
+                            <label htmlFor="weight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weight (lbs):</label>
                             <input
                                 type="number"
                                 id="weight"
                                 {...register("weight", {
-                                    required: "Weight is required",
-                                    min: { value: 1, message: "Weight must be positive" },
+                                    required: "Required",
+                                    min: { value: 1, message: "> 0" },
                                     valueAsNumber: true
                                 })}
                                 onChange={() => setHasChanged(true)}
                                 className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             />
-                            {errors.weight && <p className="mt-1 text-sm text-red-500">{errors.weight.message}</p>}
+                            {errors.weight && <p className="mt-1 text-xs text-red-500">{errors.weight.message}</p>}
+                        </div>
+                        <div className="w-32">
+                            <label htmlFor="hight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Height (in):</label>
+                            <input
+                                type="number"
+                                id="hight"
+                                step="0.1"
+                                {...register("hight", {
+                                    required: "Required",
+                                    min: { value: 1, message: "> 0" },
+                                    valueAsNumber: true
+                                })}
+                                onChange={() => setHasChanged(true)}
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                            />
+                            {errors.hight && <p className="mt-1 text-xs text-red-500">{errors.hight.message}</p>}
                         </div>
                     </div>
-                    <div>
-                        <label htmlFor="hight" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Height Inches:</label>
-                        <input
-                            type="number"
-                            id="hight"
-                            step="0.1"
-                            {...register("hight", {
-                                required: "Height is required",
-                                min: { value: 1, message: "Height must be positive" },
-                                valueAsNumber: true
-                            })}
-                            onChange={() => setHasChanged(true)}
-                            className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        />
-                        {errors.hight && <p className="mt-1 text-sm text-red-500">{errors.hight.message}</p>}
-                    </div>
-                    <div>
-                        <label htmlFor="fitnessGoals" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Primary Goal:</label>
-                        <input
-                            id="fitnessGoals"
-                            {...register("fitnessGoals", { required: "Fitness goal is required" })}
-                            onChange={() => setHasChanged(true)}
-                            className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                            placeholder="e.g. weight Gain"
-                        />
-                        {errors.fitnessGoals && <p className="mt-1 text-sm text-red-500">{errors.fitnessGoals.message}</p>}
-                    </div>
+
                     <div className="flex justify-end space-x-4">
                         <button
                             type="submit"
