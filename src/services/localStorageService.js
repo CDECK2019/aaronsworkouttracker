@@ -469,41 +469,9 @@ class LocalStorageService {
 
   async getFinancialData() {
     let data = getStorage(STORAGE_KEYS.FINANCIAL_DATA);
-
-    // Seed default goals if not present
-    if (!data || !data.goals || data.goals.length === 0) {
-      const defaultGoals = [
-        {
-          id: 'default_1',
-          title: 'Build 6-Month Emergency Fund',
-          currentAmount: 0,
-          targetAmount: 15000,
-          type: 'savings',
-          isRecommended: true
-        },
-        {
-          id: 'default_2',
-          title: 'Pay Off Credit Card Debt',
-          currentAmount: 0,
-          targetAmount: 5000,
-          type: 'debt',
-          isRecommended: true
-        },
-        {
-          id: 'default_3',
-          title: 'Invest 10% of Net Pay',
-          currentAmount: 0,
-          targetAmount: 100, // This is a percentage tracker representation (0-100%)
-          type: 'investing',
-          unit: '%',
-          isRecommended: true
-        }
-      ];
-
-      data = { goals: defaultGoals };
-      setStorage(STORAGE_KEYS.FINANCIAL_DATA, data);
+    if (!data) {
+      data = { goals: [] };
     }
-
     return data;
   }
 

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import localStorageService from '../services/localStorageService';
 import { workoutPrograms } from '../data/workoutPrograms';
 import { dietTemplates, calculateMacros } from '../data/dietTemplates';
+import { mindfulnessTemplates, intellectualTemplates, financialTemplates, careerTemplates } from '../data/holisticTemplates';
 
 export default function HolisticGoalsForm({ section = null }) {
     const { register, handleSubmit, setValue, watch, getValues } = useForm();
@@ -48,9 +49,13 @@ export default function HolisticGoalsForm({ section = null }) {
                 setValue('mindfulness.minutesPerWeek', goals.mindfulness?.minutesPerWeek);
                 // Intellectual
                 setValue('intellectual.booksPerYear', goals.intellectual?.booksPerYear);
+                // Financial
+                setValue('financial.monthlySavings', goals.financial?.monthlySavings);
+
                 // Career
                 setValue('career.currentTitle', goals.career?.currentTitle);
                 setValue('career.targetTitle', goals.career?.targetTitle);
+                setValue('career.upskillingHours', goals.career?.upskillingHours);
             }
 
             if (finData && finData.goals) {
@@ -184,6 +189,38 @@ export default function HolisticGoalsForm({ section = null }) {
         }
     };
 
+    const handleMindfulnessSelect = (templateId) => {
+        const template = mindfulnessTemplates.find(t => t.id === templateId);
+        if (template && template.minutes !== null) {
+            setValue('mindfulness.minutesPerWeek', template.minutes, { shouldValidate: true, shouldDirty: true });
+            toast.info(`Applied ${template.name} goal`);
+        }
+    };
+
+    const handleIntellectualSelect = (templateId) => {
+        const template = intellectualTemplates.find(t => t.id === templateId);
+        if (template && template.target !== null) {
+            setValue('intellectual.booksPerYear', template.target, { shouldValidate: true, shouldDirty: true });
+            toast.info(`Applied ${template.name} goal`);
+        }
+    };
+
+    const handleFinancialSelect = (templateId) => {
+        const template = financialTemplates.find(t => t.id === templateId);
+        if (template && template.amount !== null) {
+            setValue('financial.monthlySavings', template.amount, { shouldValidate: true, shouldDirty: true });
+            toast.info(`Applied ${template.name} savings goal`);
+        }
+    };
+
+    const handleCareerSelect = (templateId) => {
+        const template = careerTemplates.find(t => t.id === templateId);
+        if (template && template.hours !== null) {
+            setValue('career.upskillingHours', template.hours, { shouldValidate: true, shouldDirty: true });
+            toast.info(`Applied ${template.name} upskilling goal`);
+        }
+    };
+
     const renderNutrition = () => (
         <div className="bg-orange-50 dark:bg-orange-900/10 p-6 rounded-xl border border-orange-100 dark:border-orange-800">
             <div className="flex items-center gap-2 mb-4 text-orange-700 dark:text-orange-400">
@@ -256,13 +293,37 @@ export default function HolisticGoalsForm({ section = null }) {
                 <Brain className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Mindfulness</h3>
             </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Minutes / Week</label>
-                <input
-                    type="number"
-                    {...register("mindfulness.minutesPerWeek", { valueAsNumber: true })}
-                    className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-teal-500 text-gray-900 dark:text-white"
-                />
+
+            {/* Mindfulness Templates */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Goal Templates</label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {mindfulnessTemplates.map(template => (
+                        <button
+                            key={template.id}
+                            type="button"
+                            onClick={() => handleMindfulnessSelect(template.id)}
+                            className="p-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-teal-400 hover:shadow-md transition-all text-left flex flex-col gap-2 group"
+                        >
+                            <span className="text-2xl">{template.icon}</span>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200 group-hover:text-teal-600 transition-colors">{template.name}</h4>
+                                <p className="text-[10px] text-gray-400 leading-tight mt-1">{template.description}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Minutes / Week</label>
+                    <input
+                        type="number"
+                        {...register("mindfulness.minutesPerWeek", { valueAsNumber: true })}
+                        className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-teal-500 text-gray-900 dark:text-white"
+                    />
+                </div>
             </div>
         </div>
     );
@@ -273,22 +334,60 @@ export default function HolisticGoalsForm({ section = null }) {
                 <DollarSign className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Financial Targets</h3>
             </div>
+
+            {/* Financial Templates */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Savings Templates</label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {financialTemplates.map(template => (
+                        <button
+                            key={template.id}
+                            type="button"
+                            onClick={() => handleFinancialSelect(template.id)}
+                            className="p-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-green-400 hover:shadow-md transition-all text-left flex flex-col gap-2 group"
+                        >
+                            <span className="text-2xl">{template.icon}</span>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200 group-hover:text-green-600 transition-colors">{template.name}</h4>
+                                <p className="text-[10px] text-gray-400 leading-tight mt-1">{template.description}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             <div className="space-y-4">
-                {financialGoals.length === 0 && (
-                    <p className="text-gray-500 text-sm">No active financial goals found. Add them in the Financial Hub.</p>
-                )}
-                {financialGoals.map((goal, index) => (
-                    <div key={goal.id}>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            {goal.title} ({goal.unit || '$'})
-                        </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Monthly Savings Target ($)</label>
                         <input
                             type="number"
-                            {...register(`financial.goals.${index}.targetAmount`, { valueAsNumber: true })}
+                            {...register("financial.monthlySavings", { valueAsNumber: true })}
                             className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
                         />
                     </div>
-                ))}
+                </div>
+
+                <div className="pt-4 border-t border-gray-200 dark:border-dark-700">
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-3">Active Hub Goals</p>
+                    {financialGoals.length === 0 && (
+                        <p className="text-gray-500 text-sm italic">No active goals in Hub.</p>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {financialGoals.map((goal, index) => (
+                            <div key={goal.id} className="bg-white dark:bg-dark-800 p-4 rounded-xl border border-gray-200 dark:border-dark-700 shadow-sm">
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 truncate" title={goal.title}>
+                                    {goal.title} ({goal.unit || '$'})
+                                </label>
+                                <input
+                                    type="number"
+                                    {...register(`financial.goals.${index}.targetAmount`, { valueAsNumber: true })}
+                                    className="w-full px-3 py-2 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-green-500 text-gray-900 dark:text-white"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -299,14 +398,38 @@ export default function HolisticGoalsForm({ section = null }) {
                 <BookOpen className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Intellectual</h3>
             </div>
+
+            {/* Intellectual Templates */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Goal Templates</label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {intellectualTemplates.map(template => (
+                        <button
+                            key={template.id}
+                            type="button"
+                            onClick={() => handleIntellectualSelect(template.id)}
+                            className="p-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-blue-400 hover:shadow-md transition-all text-left flex flex-col gap-2 group"
+                        >
+                            <span className="text-2xl">{template.icon}</span>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200 group-hover:text-blue-600 transition-colors">{template.name}</h4>
+                                <p className="text-[10px] text-gray-400 leading-tight mt-1">{template.description}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             <div className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{intellectualLabels.category1} Goal / Year</label>
-                    <input
-                        type="number"
-                        {...register("intellectual.booksPerYear", { valueAsNumber: true })}
-                        className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white"
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{intellectualLabels.category1} Goal / Year</label>
+                        <input
+                            type="number"
+                            {...register("intellectual.booksPerYear", { valueAsNumber: true })}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -318,10 +441,59 @@ export default function HolisticGoalsForm({ section = null }) {
                 <Briefcase className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Career</h3>
             </div>
+
+            {/* Career Templates */}
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Development Templates</label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {careerTemplates.map(template => (
+                        <button
+                            key={template.id}
+                            type="button"
+                            onClick={() => handleCareerSelect(template.id)}
+                            className="p-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-xl hover:border-emerald-400 hover:shadow-md transition-all text-left flex flex-col gap-2 group"
+                        >
+                            <span className="text-2xl">{template.icon}</span>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200 group-hover:text-emerald-600 transition-colors">{template.name}</h4>
+                                <p className="text-[10px] text-gray-400 leading-tight mt-1">{template.description}</p>
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
             <div className="space-y-4">
-                {careerMilestones.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                        <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase mb-2 flex items-center gap-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Title</label>
+                        <input
+                            type="text"
+                            {...register("career.currentTitle")}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Title</label>
+                        <input
+                            type="text"
+                            {...register("career.targetTitle")}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weekly Upskilling (Hours)</label>
+                        <input
+                            type="number"
+                            {...register("career.upskillingHours", { valueAsNumber: true })}
+                            className="w-full px-3 py-2 bg-white dark:bg-dark-800 border border-gray-300 dark:border-dark-600 rounded-lg focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white"
+                        />
+                    </div>
+                </div>
+
+                {careerMilestones.length > 0 && (
+                    <div className="pt-4 border-t border-gray-200 dark:border-dark-700 mt-4">
+                        <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase mb-2 flex items-center gap-1">
                             <Award className="w-3 h-3" /> Recent Milestones
                         </p>
                         <div className="space-y-2">
@@ -333,10 +505,7 @@ export default function HolisticGoalsForm({ section = null }) {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-xs text-gray-400 mt-3 italic">Manage milestones in the Career Hub</p>
                     </div>
-                ) : (
-                    <p className="text-sm text-gray-500 italic">No milestones yet. Add them in the Career Hub.</p>
                 )}
             </div>
         </div>
