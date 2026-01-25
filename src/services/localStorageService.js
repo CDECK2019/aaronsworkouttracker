@@ -25,6 +25,7 @@ const STORAGE_KEYS = {
   HEALTH_CONSIDERATIONS: 'fitness_health_considerations',
   ONBOARDING_COMPLETE: 'fitness_onboarding_complete',
   ACTIVE_PROGRAM: 'fitness_active_program',
+  LAB_RESULTS: 'fitness_lab_results',
 };
 
 // Helper to generate unique IDs
@@ -518,6 +519,30 @@ class LocalStorageService {
 
   async getHealthConsiderations() {
     return getStorage(STORAGE_KEYS.HEALTH_CONSIDERATIONS) || [];
+  }
+
+  // ==================== LAB RESULTS ====================
+
+  async saveLabResults(results) {
+    // results: array of { date, title, markers: { testosterone: { value, unit }, ... } }
+    setStorage(STORAGE_KEYS.LAB_RESULTS, results);
+    return results;
+  }
+
+  async getLabResults() {
+    return getStorage(STORAGE_KEYS.LAB_RESULTS) || [];
+  }
+
+  async addLabResultEntry(entry) {
+    const results = await this.getLabResults();
+    const newEntry = {
+      $id: generateId(),
+      ...entry,
+      $createdAt: new Date().toISOString()
+    };
+    results.unshift(newEntry); // Add to top
+    await this.saveLabResults(results);
+    return newEntry;
   }
 }
 

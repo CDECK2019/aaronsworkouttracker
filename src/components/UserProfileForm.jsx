@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Target, Pill, HeartPulse, CheckCircle, Utensils, Brain, DollarSign, BookOpen, Briefcase, Camera } from 'lucide-react';
+import { User, Target, Pill, HeartPulse, CheckCircle, Utensils, Brain, DollarSign, BookOpen, Briefcase, Camera, Activity } from 'lucide-react';
 
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { STORAGE_KEYS } from '../services/localStorageService';
@@ -7,6 +7,7 @@ import UserProfileGeneral from './UserProfileGeneral';
 import HolisticGoalsForm from './HolisticGoalsForm';
 import SupplementsManager from './SupplementsManager';
 import HealthConsiderationsForm from './HealthConsiderationsForm';
+import LabResults from './LabResults';
 
 export default function UserProfileForm() {
   const [activeTab, setActiveTab] = useState('general');
@@ -42,6 +43,7 @@ export default function UserProfileForm() {
     { id: 'career', label: 'Career', icon: Briefcase },
     { id: 'supplements', label: 'Supplements', icon: Pill },
     { id: 'health', label: 'Health', icon: HeartPulse },
+    { id: 'lab', label: 'Lab Results', icon: Activity },
   ];
 
   return (
@@ -106,6 +108,7 @@ export default function UserProfileForm() {
         {activeTab === 'career' && <HolisticGoalsForm section="career" />}
         {activeTab === 'supplements' && <SupplementsManager />}
         {activeTab === 'health' && <HealthConsiderationsForm />}
+        {activeTab === 'lab' && <LabResults />}
       </div>
 
       {isOnboarding && (

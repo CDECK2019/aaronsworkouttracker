@@ -43,10 +43,7 @@ function SideBar({ isSidebarOpen }) {
           Profile
         </NavLink>
 
-        <NavLink to="/exercises" className={navLinkClass}>
-          <BookOpen className="mr-3 h-5 w-5" />
-          Exercises
-        </NavLink>
+
 
         <NavLink to="/programs" className={navLinkClass}>
           <PlayCircle className="mr-3 h-5 w-5" />
@@ -92,6 +89,11 @@ function SideBar({ isSidebarOpen }) {
         <NavLink to="/history" className={navLinkClass}>
           <Clock className="mr-3 h-5 w-5" />
           History
+        </NavLink>
+
+        <NavLink to="/exercises" className={navLinkClass}>
+          <BookOpen className="mr-3 h-5 w-5" />
+          Exercise Library
         </NavLink>
 
         <button
