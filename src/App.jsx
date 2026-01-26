@@ -26,6 +26,7 @@ import VisualsHub from "./components/VisualsHub.jsx";
 import CustomMealBuilder from "./components/CustomMealBuilder.jsx";
 import MealPlanDetails from "./components/MealPlanDetails.jsx";
 import Onboarding from "./components/Onboarding.jsx";
+import AIOnboarding from "./components/AIOnboarding.jsx";
 import { useEffect, useState } from "react";
 import { initializeServices } from "./services/serviceProvider";
 
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
       <Route path="onboarding" element={<Onboarding />} />
+      <Route path="ai-onboarding" element={<AIOnboarding />} />
 
       {/* App Routes (wrapped in Layout with sidebar) */}
       <Route element={<Layout />}>

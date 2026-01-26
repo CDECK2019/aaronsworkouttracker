@@ -65,7 +65,7 @@ export default function Onboarding() {
         if (currentSlide < slides.length - 1) {
             setCurrentSlide(currentSlide + 1);
         } else {
-            navigate('/profile?onboarding=true');
+            navigate('/ai-onboarding');
         }
     };
 
